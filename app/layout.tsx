@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+// import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -20,10 +20,10 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
-const fontSans = FontSans({
-  // subsets: ["latin"],
-  variable: "--font-sans",
-});
+// const fontSans = FontSans({
+//   // subsets: ["latin"],
+//   variable: "--font-sans",
+// });
 
 export const metadata: Metadata = {
   title: "WordPress & Next.js Starter by 9d8",
@@ -45,8 +45,7 @@ export default function RootLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen font-sans antialiased bg-cover bg-center bg-no-repeat",
-          fontSans.variable
+          "min-h-screen font-sans antialiased bg-cover bg-center bg-no-repeat"
         )}
         style={{ backgroundImage: "url('/Car.png')" }}
       >
