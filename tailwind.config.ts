@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config = {
@@ -20,7 +21,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Plus Jakarta Sans"],
+        sans: ["Plus Jakarta Sans", "Satsify", "Pacifico"],
       },
       backgroundImage: {
         "gradient-custom":
@@ -29,7 +30,6 @@ const config = {
       backdropBlur: {
         custom: "29.625px",
       },
-
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

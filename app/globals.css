@@ -76,11 +76,11 @@
   }
 }
 
-@layer prose-m-none {
+/* @layer prose-m-none {
   * {
-    @apply prose-headings:m-0;
+    @apply prose-headings: m-0;
   }
-}
+} */
 
 @layer utilities {
 
