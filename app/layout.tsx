@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 // import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
-import ModelsPage from "./ModelsPage";
+
 import "./globals.css";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import Categories from "@/components/Categories";
+import { Layout } from "lucide-react";
+import Videos from "@/components/Videos";
 
 // const fontSans = FontSans({
 //   // subsets: ["latin"],
@@ -59,7 +62,8 @@ export default function RootLayout({
           <Main>{children}</Main>
           {/* <Footer /> */}
           <HeroSection />
-          <ModelsPage />
+          <Categories />
+          <Videos />
         </ThemeProvider>
         <Analytics />
       </body>
@@ -241,6 +245,7 @@ const Nav = ({ className, children, id }: NavProps) => {
     </nav>
   );
 };
+
 const HeroSection = () => {
   return (
     <section
@@ -343,58 +348,6 @@ const HeroSection = () => {
     </section>
   );
 };
-
-// const ModelsPage = () => {
-//   return (
-//     <div className="bg-black text-white min-h-screen">
-//       {/* Header Section */}
-//       <div className="text-center py-10">
-//         <h1 className="text-4xl font-bold uppercase tracking-wide">
-//           Categories
-//         </h1>
-//         <h2
-//           className="text-[165px] font-[400] leading-[27.2px] text-center font-[Satisfy] mt-6"
-//           style={{
-//             background: "#E1373D40",
-//             textUnderlinePosition: "from-font",
-//             textDecorationSkipInk: "none",
-//           }}
-//         >
-//           Models
-//         </h2>
-//       </div>
-
-//       {/* Models Section */}
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 px-4 sm:px-10 lg:px-20 pb-10">
-//         {/* Card */}
-//         {Array(4)
-//           .fill("")
-//           .map((_, index) => (
-//             <div
-//               key={index}
-//               className="relative bg-gray-800 rounded-lg overflow-hidden"
-//             >
-//               <Image
-//                 src={`/images/bike${index + 1}.jpg`}
-//                 alt={`Bike ${index + 1}`}
-//                 layout="responsive"
-//                 width={400}
-//                 height={300}
-//                 className="rounded-lg"
-//               />
-//               <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4">
-//                 <h3 className="text-lg font-semibold">HONDA</h3>
-//                 <p className="text-sm">CB650F 2017 RED&BLACK</p>
-//                 <a href="#" className="text-primary mt-2 hover:underline">
-//                   Learn more
-//                 </a>
-//               </div>
-//             </div>
-//           ))}
-//       </div>
-//     </div>
-//   );
-// };
 
 // const Footer = () => {
 //   return (
