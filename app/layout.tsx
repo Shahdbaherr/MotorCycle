@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 // import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
-
+import Nav from "@/components/NavBar";
 import "./globals.css";
 
 import { Button } from "@/components/ui/button";
@@ -46,12 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body
-        className={cn(
-          "min-h-screen font-sans antialiased bg-cover bg-center bg-no-repeat"
-        )}
-        style={{ backgroundImage: "url('/Car.png')" }}
-      >
+      <body className={cn(" font-sans bg-cover bg-center bg-no-repeat")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -59,7 +54,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Nav />
-
           {/* <Footer /> */}
           {/* <HeroSection /> */}
           <Main>{children}</Main>
@@ -70,180 +64,180 @@ export default function RootLayout({
   );
 }
 
-const Nav = ({ className, children, id }: NavProps) => {
-  return (
-    <nav
-      className={cn(
-        "absolute z-50 top-0  text-white w-full",
-        "fade-in",
-        className
-      )}
-      id={id}
-    >
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-2">
-        {/* Logo */}
-        <div className="flex items-center">
-          <Image src="/logo.png" alt="logo" width={160} height={121} priority />
-        </div>
+// const Nav = ({ className, children, id }: NavProps) => {
+//   return (
+//     <nav
+//       className={cn(
+//         "absolute z-50 top-0  text-white w-full",
+//         "fade-in",
+//         className
+//       )}
+//       id={id}
+//     >
+//       <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-2">
+//         {/* Logo */}
+//         <div className="flex items-center">
+//           <Image src="/logo.png" alt="logo" width={160} height={121} priority />
+//         </div>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex space-x-8">
-          <a href="#home" className="hover:text-primary transition">
-            Home
-          </a>
+//         {/* Desktop Navigation Links */}
+//         <div className="hidden md:flex space-x-8">
+//           <a href="#home" className="hover:text-primary transition">
+//             Home
+//           </a>
 
-          {/* Motorcycle Dropdown */}
-          <div className="relative group">
-            <a
-              href="#motorcycle"
-              className="hover:text-primary transition flex items-center"
-            >
-              Motorcycle
-              <span className="ml-1">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </span>
-            </a>
-            <div className="absolute left-0 mt-2 hidden group-hover:block  text-white border rounded shadow-lg">
-              <a
-                href="#sports"
-                className="block px-4 py-2 hover:bg-gray-100 transition"
-              >
-                Sports
-              </a>
-              <a
-                href="#cruiser"
-                className="block px-4 py-2 hover:bg-gray-100 transition"
-              >
-                Cruiser
-              </a>
-              <a
-                href="#electric"
-                className="block px-4 py-2 hover:bg-gray-100 transition"
-              >
-                Electric
-              </a>
-            </div>
-          </div>
+//           {/* Motorcycle Dropdown */}
+//           <div className="relative group">
+//             <a
+//               href="#motorcycle"
+//               className="hover:text-primary transition flex items-center"
+//             >
+//               Motorcycle
+//               <span className="ml-1">
+//                 <svg
+//                   className="w-4 h-4"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   strokeWidth="2"
+//                   viewBox="0 0 24 24"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     d="M19 9l-7 7-7-7"
+//                   ></path>
+//                 </svg>
+//               </span>
+//             </a>
+//             <div className="absolute left-0 mt-2 hidden group-hover:block  text-white border rounded shadow-lg">
+//               <a
+//                 href="#sports"
+//                 className="block px-4 py-2 hover:bg-gray-100 transition"
+//               >
+//                 Sports
+//               </a>
+//               <a
+//                 href="#cruiser"
+//                 className="block px-4 py-2 hover:bg-gray-100 transition"
+//               >
+//                 Cruiser
+//               </a>
+//               <a
+//                 href="#electric"
+//                 className="block px-4 py-2 hover:bg-gray-100 transition"
+//               >
+//                 Electric
+//               </a>
+//             </div>
+//           </div>
 
-          {/* Videos Dropdown */}
-          <div className="relative group">
-            <a
-              href="#videos"
-              className="hover:text-primary transition flex items-center"
-            >
-              Videos
-              <span className="ml-1">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </span>
-            </a>
-            <div className="absolute left-0 mt-2 hidden group-hover:block  text-white border rounded shadow-lg">
-              <a
-                href="#reviews"
-                className="block px-4 py-2 hover:bg-gray-100 transition"
-              >
-                Reviews
-              </a>
-              <a
-                href="#trailers"
-                className="block px-4 py-2 hover:bg-gray-100 transition"
-              >
-                Trailers
-              </a>
-              <a
-                href="#tutorials"
-                className="block px-4 py-2 hover:bg-gray-100 transition"
-              >
-                Tutorials
-              </a>
-            </div>
-          </div>
+//           {/* Videos Dropdown */}
+//           <div className="relative group">
+//             <a
+//               href="#videos"
+//               className="hover:text-primary transition flex items-center"
+//             >
+//               Videos
+//               <span className="ml-1">
+//                 <svg
+//                   className="w-4 h-4"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   strokeWidth="2"
+//                   viewBox="0 0 24 24"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     d="M19 9l-7 7-7-7"
+//                   ></path>
+//                 </svg>
+//               </span>
+//             </a>
+//             <div className="absolute left-0 mt-2 hidden group-hover:block  text-white border rounded shadow-lg">
+//               <a
+//                 href="#reviews"
+//                 className="block px-4 py-2 hover:bg-gray-100 transition"
+//               >
+//                 Reviews
+//               </a>
+//               <a
+//                 href="#trailers"
+//                 className="block px-4 py-2 hover:bg-gray-100 transition"
+//               >
+//                 Trailers
+//               </a>
+//               <a
+//                 href="#tutorials"
+//                 className="block px-4 py-2 hover:bg-gray-100 transition"
+//               >
+//                 Tutorials
+//               </a>
+//             </div>
+//           </div>
 
-          <a href="#shooting" className="hover:text-primary transition">
-            Shooting
-          </a>
-          <a href="#contact" className="hover:text-primary transition">
-            Contact Us
-          </a>
-        </div>
+//           <a href="#shooting" className="hover:text-primary transition">
+//             Shooting
+//           </a>
+//           <a href="#contact" className="hover:text-primary transition">
+//             Contact Us
+//           </a>
+//         </div>
 
-        {/* Search Bar */}
-        <div className="hidden md:flex items-center w-full max-w-[289px] relative">
-          <input
-            type="text"
-            placeholder="Search for motorcycle"
-            className="w-full h-[48px] pl-4 pr-12 rounded-full bg-transparent text-white border border-white focus:outline-none"
-          />
-          <button className="absolute right-2 flex items-center justify-center w-[32px] h-[32px] bg-white rounded-full">
-            <svg
-              className="w-6 h-6 text-red-500"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <circle cx="10" cy="10" r="7" strokeWidth="2"></circle>
-              <line x1="16" y1="16" x2="20" y2="20" strokeWidth="2"></line>
-            </svg>
-          </button>
-        </div>
+//         {/* Search Bar */}
+//         <div className="hidden md:flex items-center w-full max-w-[289px] relative">
+//           <input
+//             type="text"
+//             placeholder="Search for motorcycle"
+//             className="w-full h-[48px] pl-4 pr-12 rounded-full bg-transparent text-white border border-white focus:outline-none"
+//           />
+//           <button className="absolute right-2 flex items-center justify-center w-[32px] h-[32px] bg-white rounded-full">
+//             <svg
+//               className="w-6 h-6 text-red-500"
+//               xmlns="http://www.w3.org/2000/svg"
+//               viewBox="0 0 24 24"
+//               fill="none"
+//               stroke="currentColor"
+//             >
+//               <circle cx="10" cy="10" r="7" strokeWidth="2"></circle>
+//               <line x1="16" y1="16" x2="20" y2="20" strokeWidth="2"></line>
+//             </svg>
+//           </button>
+//         </div>
 
-        {/*  Menu for Mobile */}
-        <div className="md:hidden flex flex-col items-center">
-          <div className="group">
-            <div className="cursor-pointer">
-              <span className="block w-6 h-0.5 bg-white mb-1"></span>
-              <span className="block w-6 h-0.5 bg-white mb-1"></span>
-              <span className="block w-6 h-0.5 bg-white"></span>
-            </div>
-            <div className="absolute top-200 left-0 w-screen text-white p-4 transform scale-0 opacity-0 transition-all duration-300 ease-in-out group-hover:scale-100 group-hover:opacity-100">
-              <a href="#home" className="block py-2 hover:text-primary">
-                Home
-              </a>
-              <a href="#motorcycle" className="block py-2 hover:text-primary">
-                Motorcycle
-              </a>
-              <a href="#videos" className="block py-2 hover:text-primary">
-                Videos
-              </a>
-              <a href="#shooting" className="block py-2 hover:text-primary">
-                Shooting
-              </a>
-              <a href="#contact" className="block py-2 hover:text-primary">
-                Contact Us
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-};
+//         {/*  Menu for Mobile */}
+//         <div className="md:hidden flex flex-col items-center">
+//           <div className="group">
+//             <div className="cursor-pointer">
+//               <span className="block w-6 h-0.5 bg-white mb-1"></span>
+//               <span className="block w-6 h-0.5 bg-white mb-1"></span>
+//               <span className="block w-6 h-0.5 bg-white"></span>
+//             </div>
+//             <div className="absolute top-200 left-0 w-screen text-white p-4 transform scale-0 opacity-0 transition-all duration-300 ease-in-out group-hover:scale-100 group-hover:opacity-100">
+//               <a href="#home" className="block py-2 hover:text-primary">
+//                 Home
+//               </a>
+//               <a href="#motorcycle" className="block py-2 hover:text-primary">
+//                 Motorcycle
+//               </a>
+//               <a href="#videos" className="block py-2 hover:text-primary">
+//                 Videos
+//               </a>
+//               <a href="#shooting" className="block py-2 hover:text-primary">
+//                 Shooting
+//               </a>
+//               <a href="#contact" className="block py-2 hover:text-primary">
+//                 Contact Us
+//               </a>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </nav>
+//   );
+// };
 
 // const HeroSection = () => {
 //   return (

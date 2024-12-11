@@ -5,20 +5,18 @@ const HeroSection = () => {
     <section
       className="relative w-full text-white flex items-center"
       style={{
-        height: "100vh", // Full viewport height
-        background: "url('/background.jpg') no-repeat center center/cover", // Background image
+        height: "100vh",
+        width: "100vw",
+        backgroundImage: "url('/Car.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      <div
-        className="max-w-[90vw] flex items-center space-x-8 mx-auto"
-        style={{
-          marginLeft: "5vw", // Relative margin for responsiveness
-        }}
-      >
+      <div style={{ marginLeft: "80px" }}>
         {/* Left Text Section */}
-        <div className="flex flex-col space-y-4 mt-[12vh] ml-[2vw]">
+        <div className="flex flex-col space-y-4 mt-[12vh]">
           <div
-            className="p-8"
             style={{
               width: "50vw",
               height: "auto",
@@ -26,18 +24,18 @@ const HeroSection = () => {
           >
             <a
               href="#"
-              className="text-lg font-bold underline hover:text-primary transition-colors"
+              className="text-2xl font-bold underline hover:text-primary text-white transition-colors"
             >
               Online Store
             </a>
-            <h1 className="text-3xl sm:text-4xl font-extrabold my-4">
+            <h1 className="text-3xl pt-6 sm:text-4xl font-extrabold my-4 text-white">
               All you need in one place
             </h1>
 
             {/* Button Container */}
             <div className="flex items-center space-x-4">
               {/* Shop Button */}
-              <button className="px-8 sm:px-16 py-2 sm:py-3 text-white rounded-full transition border border-white text-lg sm:text-3xl">
+              <button className="px-8 sm:px-16 py-6 sm:py-3 text-white rounded-full transition border border-white text-lg sm:text-3xl">
                 Shop
               </button>
 
@@ -60,41 +58,48 @@ const HeroSection = () => {
               </button>
             </div>
 
-            <p className="mt-4 text-lg sm:text-4xl">EXPLORE OUR WORLD!</p>
-          </div>
-          <div className="relative bg-gradient-custom text-white p-4 sm:p-6 rounded-lg shadow-lg w-[80vw] sm:w-96 backdrop-blur-custom mx-auto sm:mx-0">
-            <div className="flex items-center justify-between mb-4 ">
-              <button className="bg-gray-800 text-white px-4 py-2 rounded-full">
-                Motorcycle
-              </button>
-            </div>
-            <h2 className="text-primary text-lg sm:text-xl mb-2">
-              Sa3dawy Garage
-            </h2>
-            <p className="text-white text-sm sm:text-base">
-              Motorcycle <span className="text-primary">•</span> Riding gear{" "}
-              <span className="text-primary">•</span> Parts{" "}
-              <span className="text-primary">•</span> Accessories
-            </p>
-            <div className="absolute top-0 right-0 bg-primary text-white px-4 py-2 rounded-tr-lg cursor-pointer">
-              View
+            <p className="py-6 text-lg sm:text-4xl">EXPLORE OUR WORLD!</p>
+
+            <div
+              className="relative  text-white p-4 sm:p-6 rounded-lg shadow-lg w-[80vw] sm:w-96  mx-auto sm:mx-0"
+              style={{
+                backgroundImage: "url('/BG.png')",
+              }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <button className="bg-gradient-custo shadow-lg backdrop-blur-custom mx-auto sm:mx-0 text-white px-4 py-2 rounded-full">
+                  Motorcycle
+                </button>
+              </div>
+              <h2 className="text-primary text-lg sm:text-xl mb-2">
+                Sa3dawy Garage
+              </h2>
+              <p className="text-white text-sm sm:text-base">
+                Motorcycle <span className="text-primary">•</span> Riding gear{" "}
+                <span className="text-primary">•</span> Parts{" "}
+                <span className="text-primary">•</span> Accessories
+              </p>
+              <div className="absolute top-4 right-1 bg-primary text-white px-6 py-1 rounded-xl cursor-pointer">
+                View
+              </div>
             </div>
           </div>
         </div>
 
         {/* Right Image Section */}
         <div
-          className="absolute hidden sm:block"
+          className="hidden sm:block"
           style={{
+            position: "absolute",
             top: "25vh",
-            left: "63vw",
+            right: "10px",
           }}
         >
           <Image
             src="/motorcycle.png"
             alt="Motorcycle"
-            width={550}
-            height={400}
+            width={590}
+            height={500}
             className="object-cover max-w-[30vw]"
           />
         </div>

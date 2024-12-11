@@ -23,7 +23,6 @@ const Categories = ({ home }: categoriesProps) => {
           "https://maator.com/wp-json/wp/v2/groups?acf_format=standard&_fields=acf.group_urls"
         );
         const data: GroupData[] = await response.json();
-        console.log("API Response:", data); // Debugging API response
         const fetchedImages = data.flatMap((group) => group.acf.group_urls);
         setImages(fetchedImages);
       } catch (error) {
