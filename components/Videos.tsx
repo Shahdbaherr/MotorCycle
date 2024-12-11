@@ -2,17 +2,18 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 // Define types for video data
 interface Video {
   id: number;
-  videoId: string | null; // videoId can be null if not found
+  videoId: string; // videoId can be null if not found
 }
 
 interface ApiResponse {
   id: number;
   acf: {
-    id?: string; // The video ID, which may be undefined if not available
+    id?: string; // The video ID,
   };
 }
 
@@ -72,7 +73,7 @@ const Videos = () => {
       style={{ backgroundColor: "#0E0B0B" }}
     >
       {/* Header Section */}
-      <div className="mt-[6vh] flex justify-center relative">
+      <div className="mt-[2vh] flex justify-center relative">
         <Image src="/Explore.png" alt="explore" width={300} height={30} />
         <span className="absolute inset-0 flex justify-center items-center text-3xl font-[600] text-white">
           Videos
@@ -87,12 +88,11 @@ const Videos = () => {
           videos.map((video) => (
             <div key={video.id} className="relative">
               {/* YouTube Embedded Video */}
-              <iframe
-                src={`https://www.youtube.com/embed/${video.videoId}`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="rounded-lg w-full h-[250px]" // Square video shape
-              ></iframe>
+
+              <LiteYouTubeEmbed
+                id={video.videoId}
+                title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
+              />
             </div>
           ))
         )}
@@ -101,7 +101,7 @@ const Videos = () => {
       {/* Show More Button */}
       <div className="flex justify-center items-center pb-10">
         <Link href="#" passHref>
-          <button className="inline-block px-6 py-2 mt-6 text-white border rounded-lg border-white uppercase tracking-wide hover:bg-white hover:text-black transition duration-200 text-xl">
+          <button className="inline-block px-6 py-1 mt-6 text-white border rounded-lg border-white uppercase tracking-wide hover:bg-white hover:text-black transition duration-200 text-xl">
             SHOW MORE
           </button>
         </Link>

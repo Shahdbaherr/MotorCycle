@@ -1,11 +1,17 @@
-// Craft Imports
-
 // Components
 import Categories from "@/components/Categories";
-// Icons
+import HeroSection from "@/components/HeroSection";
+import Shooting from "@/components/Shooting";
+import Videos from "@/components/Videos";
 
 // This page is using the craft.tsx component and design system
 export default function Home() {
-  return;
-  //  <Categories />;
+  return (
+    <>
+      <HeroSection />
+      <Categories home={true} />
+      <Videos />
+      <Shooting condition={true} />
+    </>
+  );
 }
