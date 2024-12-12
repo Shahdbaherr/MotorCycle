@@ -62,7 +62,11 @@ const NavBar = ({ className, id }: NavProps) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              d={
+                isMobileMenuOpen
+                  ? "M6 18L18 6M6 6l12 12"
+                  : "M4 6h16M4 12h16M4 18h16"
+              }
             />
           </svg>
         </button>
@@ -154,6 +158,82 @@ const NavBar = ({ className, id }: NavProps) => {
               </div>
             )}
           </div>
+          <div className="relative">
+            <button
+              onClick={() => toggleDropdown("videos")}
+              className="flex items-center hover:text-primary transition"
+            >
+              Videos
+              <svg
+                className="w-4 h-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            {openDropdown === "videos" && (
+              <div className="absolute left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 text-black">
+                <Link
+                  href="#videos"
+                  className="block px-4 py-2 hover:text-primary rounded-lg"
+                >
+                  Videos
+                </Link>
+                <div className="relative">
+                  <button
+                    onClick={() => toggleNestedDropdown("ports")}
+                    className="flex px-4 py-2 w-full text-left justify-between items-center hover:text-primary rounded-lg"
+                  >
+                    Ports
+                    <svg
+                      className="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5l7 7-7 7"
+                      ></path>
+                    </svg>
+                  </button>
+                  {nestedDropdownOpen === "ports" && (
+                    <div className="absolute w-[5vw] left-full top-0 mt-0 bg-white border border-gray-300 rounded-lg shadow-lg z-20">
+                      <Link
+                        href="#port-type1"
+                        className="block px-4 py-2 hover:text-primary rounded-lg"
+                      >
+                        Item 1
+                      </Link>
+                      <Link
+                        href="#port-type2"
+                        className="block px-4 py-2 hover:text-primary rounded-lg"
+                      >
+                        Item 2
+                      </Link>
+                    </div>
+                  )}
+                </div>
+                <Link
+                  href="#cruiser"
+                  className="block px-4 py-2 hover:text-primary rounded-lg"
+                >
+                  Cruiser
+                </Link>
+              </div>
+            )}
+          </div>
           <Link href="#shooting" className="hover:text-primary transition">
             Shooting
           </Link>
@@ -186,7 +266,7 @@ const NavBar = ({ className, id }: NavProps) => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 z-40 flex flex-col items-center justify-center">
+        <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center">
           <button
             className="absolute top-4 right-4 text-white"
             onClick={toggleMobileMenu}

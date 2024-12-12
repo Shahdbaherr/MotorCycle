@@ -3,47 +3,40 @@ import Image from "next/image";
 const HeroSection = () => {
   return (
     <section
-      className="relative w-full text-white flex items-center"
+      className="relative w-full text-white flex flex-col md:flex-row items-center  pt-[8vh] h-auto lg:h-[100vh]" // Added top padding
       style={{
-        height: "100vh",
-        width: "100vw",
         backgroundImage: "url('/Car.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div style={{ marginLeft: "80px" }}>
-        {/* Left Text Section */}
-        <div className="flex flex-col space-y-4 mt-[12vh]">
-          <div
-            style={{
-              width: "50vw",
-              height: "auto",
-            }}
-          >
+      <div className="flex flex-col md:flex-row w-full items-center justify-between px-4 md:px-10">
+        {/* Left Section */}
+        <div className="flex flex-col space-y-4 md:w-1/2 md:mt-[12vh] sm:ml-[2vh]">
+          <div>
             <a
               href="#"
-              className="text-2xl font-bold underline hover:text-primary text-white transition-colors"
+              className="text-xl md:text-2xl font-bold underline hover:text-primary text-white transition-colors"
             >
               Online Store
             </a>
-            <h1 className="text-3xl pt-6 sm:text-4xl font-extrabold my-4 text-white">
+            <h1 className="text-2xl pt-4 md:text-3xl lg:text-4xl font-extrabold my-4 text-white">
               All you need in one place
             </h1>
 
             {/* Button Container */}
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-wrap items-center space-x-4">
               {/* Shop Button */}
-              <button className="px-8 sm:px-16 py-6 sm:py-3 text-white rounded-full transition border border-white text-lg sm:text-3xl">
+              <button className="px-6 md:px-8 lg:px-16 py-3 md:py-3 text-white rounded-full transition border border-white text-sm md:text-lg lg:text-3xl">
                 Shop
               </button>
 
               {/* Arrow Button */}
-              <button className="w-12 sm:w-14 h-12 sm:h-14 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition">
+              <button className="w-10 md:w-12 lg:w-14 h-10 md:h-12 lg:h-14 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5 text-white"
+                  className="w-4 md:w-5 h-4 md:h-5 text-white"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -58,49 +51,46 @@ const HeroSection = () => {
               </button>
             </div>
 
-            <p className="py-6 text-lg sm:text-4xl">EXPLORE OUR WORLD!</p>
+            <p className="py-4 md:py-6 text-base md:text-lg lg:text-4xl">
+              EXPLORE OUR WORLD!
+            </p>
 
             <div
-              className="relative  text-white p-4 sm:p-6 rounded-lg shadow-lg w-[80vw] sm:w-96  mx-auto sm:mx-0"
+              className="flex justify-between flex-col text-white p-4 sm:p-6 rounded-lg shadow-lg w-full md:w-[80vw] lg:w-96 mt-[2vh]" // Added margin-top for spacing
               style={{
                 backgroundImage: "url('/BG.png')",
+                backgroundRepeat: "no-repeat",
               }}
             >
               <div className="flex items-center justify-between mb-4">
-                <button className="bg-gradient-custo shadow-lg backdrop-blur-custom mx-auto sm:mx-0 text-white px-4 py-2 rounded-full">
-                  Motorcycle
-                </button>
+                <div className="flex items-center justify-between">
+                  <button className="bg-gradient-custo shadow-lg backdrop-blur-custom text-white px-3 md:px-4 py-1 md:py-2 rounded-full">
+                    Motorcycle
+                  </button>
+                  <div className="ml-[18vh] bg-primary text-white px-4 md:px-6 py-1 rounded-xl cursor-pointer ">
+                    View
+                  </div>
+                </div>
               </div>
-              <h2 className="text-primary text-lg sm:text-xl mb-2">
+              <h2 className="text-primary text-sm md:text-lg lg:text-xl mb-2">
                 Sa3dawy Garage
               </h2>
-              <p className="text-white text-sm sm:text-base">
-                Motorcycle <span className="text-primary">•</span> Riding gear{" "}
-                <span className="text-primary">•</span> Parts{" "}
+              <p className="text-white text-xs md:text-sm lg:text-base">
+                Motorcycle <span className="text-primary">•</span> Riding gear
+                <span className="text-primary">•</span> Parts
                 <span className="text-primary">•</span> Accessories
               </p>
-              <div className="absolute top-4 right-1 bg-primary text-white px-6 py-1 rounded-xl cursor-pointer">
-                View
-              </div>
             </div>
           </div>
         </div>
 
         {/* Right Image Section */}
-        <div
-          className="hidden sm:block"
-          style={{
-            position: "absolute",
-            top: "25vh",
-            right: "10px",
-          }}
-        >
+        <div className=" relative  w-1/2 h-[600px]  ">
           <Image
             src="/motorcycle.png"
             alt="Motorcycle"
-            width={590}
-            height={500}
-            className="object-cover max-w-[30vw]"
+            layout="fill"
+            className="object-cover max-w-full md:max-w-[30vw]"
           />
         </div>
       </div>

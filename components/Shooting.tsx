@@ -1,8 +1,9 @@
 "use client";
-
+import ImageCard from "./ImageCard";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
 // Define types for API response
 interface ImageData {
   id: number;
@@ -39,7 +40,7 @@ const Shooting = ({ condition }: ShootingProps) => {
     };
 
     fetchImages();
-  }, [condition]); // Re-fetch if the condition changes
+  }, [condition]);
 
   return (
     <div
@@ -47,15 +48,12 @@ const Shooting = ({ condition }: ShootingProps) => {
       style={{ backgroundColor: "#0E0B0B" }}
     >
       {/* Header Section */}
-      <div className="mt-[3vh] flex justify-center relative">
-        <Image src="/Gallery.png" alt="gallery" width={300} height={30} />
-        <span className="absolute inset-0 flex justify-center items-center text-3xl font-[600] text-white">
-          Shooting
-        </span>
+      <div>
+        <ImageCard imgSrc="/Shooting.png" />
       </div>
 
       {/* Images Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-[8px] ml-[1vw] sm:gap-[8px] sm:ml-[.5vw]">
         {images.length === 0 ? (
           <div className="text-center text-xl">No images available.</div>
         ) : (
@@ -64,14 +62,15 @@ const Shooting = ({ condition }: ShootingProps) => {
               <Image
                 src={imageUrl}
                 alt={`Image ${index + 1}`}
-                width={480}
-                height={250}
-                className=" rounded-xl"
+                width={600}
+                height={500}
+                className="rounded-xl"
               />
             </div>
           ))
         )}
       </div>
+
       <div className="flex justify-center items-center pb-10">
         <Link href="#" passHref>
           <button className="inline-block px-6 py-1 text-white border rounded-lg border-white uppercase tracking-wide hover:bg-white hover:text-black transition duration-200 text-xl">

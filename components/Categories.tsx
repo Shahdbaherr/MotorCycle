@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import ImageCard from "./ImageCard";
 type categoriesProps = {
   home: boolean;
 };
@@ -12,7 +12,7 @@ type GroupData = {
   group_urls: string[];
 };
 
-const Categories = ({ home }: categoriesProps) => {
+const Categories = (home: categoriesProps) => {
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,11 +43,8 @@ const Categories = ({ home }: categoriesProps) => {
       }}
     >
       {/* Header Section */}
-      <div className="mt-[3vh] flex justify-center relative">
-        <Image src="/Models.png" alt="models" width={300} height={30} />
-        <span className="absolute inset-0 flex justify-center items-center text-3xl font-[600] text-white">
-          Categories
-        </span>
+      <div>
+        <ImageCard imgSrc="/Models (2).png" />
       </div>
 
       {/* Models Section */}
