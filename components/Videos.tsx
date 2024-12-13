@@ -71,7 +71,7 @@ const Videos = () => {
 
   return (
     <div
-      className="text-white min-h-screen overflow-hidden"
+      className="text-white min-h-screen overflow-hidden px-4 md:px-10"
       style={{ backgroundColor: "#0E0B0B" }}
     >
       {/* Header Section */}
@@ -80,7 +80,7 @@ const Videos = () => {
       </div>
 
       {/* Videos Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-5 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-5 mt-10">
         {videos.length === 0 ? (
           <div className="text-center text-xl">No videos available.</div>
         ) : (

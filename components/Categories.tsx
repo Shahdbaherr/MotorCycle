@@ -37,7 +37,7 @@ const Categories = (home: categoriesProps) => {
 
   return (
     <div
-      className="text-white min-h-screen overflow-hidden"
+      className="text-white min-h-screen overflow-hidden px-4 md:px-10"
       style={{
         backgroundColor: "#0E0B0B",
       }}
@@ -48,7 +48,7 @@ const Categories = (home: categoriesProps) => {
       </div>
 
       {/* Models Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 mt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2">
         {loading ? (
           <p className="col-span-full text-center">Loading images...</p>
         ) : (

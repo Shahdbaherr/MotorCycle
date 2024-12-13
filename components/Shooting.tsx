@@ -44,7 +44,7 @@ const Shooting = ({ condition }: ShootingProps) => {
 
   return (
     <div
-      className="text-white min-h-screen overflow-hidden"
+      className="text-white min-h-screen overflow-hidden px-4 md:px-10"
       style={{ backgroundColor: "#0E0B0B" }}
     >
       {/* Header Section */}
@@ -53,7 +53,7 @@ const Shooting = ({ condition }: ShootingProps) => {
       </div>
 
       {/* Images Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-[8px] ml-[1vw] sm:gap-[8px] sm:ml-[.5vw]">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 ml-[1vw] sm:ml-[.5vw]">
         {images.length === 0 ? (
           <div className="text-center text-xl">No images available.</div>
         ) : (

@@ -3,7 +3,7 @@ import Image from "next/image";
 const HeroSection = () => {
   return (
     <section
-      className="relative w-full text-white flex flex-col md:flex-row items-center  pt-[8vh] h-auto lg:h-[100vh]" // Added top padding
+      className="relative w-full text-white flex flex-col md:flex-row items-center  pt-[130px] md:pt-[8vh] h-auto lg:h-[100vh]"
       style={{
         backgroundImage: "url('/Car.png')",
         backgroundSize: "cover",
@@ -13,11 +13,11 @@ const HeroSection = () => {
     >
       <div className="flex flex-col md:flex-row w-full items-center justify-between px-4 md:px-10">
         {/* Left Section */}
-        <div className="flex flex-col space-y-4 md:w-1/2 md:mt-[12vh] sm:ml-[2vh]">
+        <div className="flex flex-col space-y-4 w-full md:mt-[12vh] sm:ml-[2vh] px-8">
           <div>
             <a
               href="#"
-              className="text-xl md:text-2xl font-bold underline hover:text-primary text-white transition-colors"
+              className="text-xl md:text-2xl font-bold underline hover:text-primary !text-white transition-colors"
             >
               Online Store
             </a>
@@ -56,22 +56,20 @@ const HeroSection = () => {
             </p>
 
             <div
-              className="flex justify-between flex-col text-white p-4 sm:p-6 rounded-lg shadow-lg w-full md:w-[80vw] lg:w-96 mt-[2vh]" // Added margin-top for spacing
+              className="flex justify-between flex-col text-white py-4 pl-4 sm:py-6 sm:pl-6 rounded-lg shadow-lg w-full md:w-[80vw] lg:w-96 mt-[2vh]" // Added margin-top for spacing
               style={{
                 backgroundImage: "url('/BG.png')",
                 backgroundRepeat: "no-repeat",
               }}
             >
-              <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center justify-between">
                   <button className="bg-gradient-custo shadow-lg backdrop-blur-custom text-white px-3 md:px-4 py-1 md:py-2 rounded-full">
                     Motorcycle
                   </button>
-                  <div className="ml-[18vh] bg-primary text-white px-4 md:px-6 py-1 rounded-xl cursor-pointer ">
+                  <div className="bg-primary text-white px-4 md:px-6 py-1 rounded-xl cursor-pointer hidden md:block">
                     View
                   </div>
                 </div>
-              </div>
               <h2 className="text-primary text-sm md:text-lg lg:text-xl mb-2">
                 Sa3dawy Garage
               </h2>
@@ -85,12 +83,12 @@ const HeroSection = () => {
         </div>
 
         {/* Right Image Section */}
-        <div className=" relative  w-1/2 h-[600px]  ">
+        <div className=" relative  w-full md:w-1/2 h-[calc(100vh-130px)]  ">
           <Image
             src="/motorcycle.png"
             alt="Motorcycle"
             layout="fill"
-            className="object-cover max-w-full md:max-w-[30vw]"
+            className="object-cover max-w-full md:max-w-[30vw] !left-auto !m-0 md:!mt-6"
           />
         </div>
       </div>

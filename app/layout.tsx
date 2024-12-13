@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import Categories from "@/components/Categories";
 import { Layout } from "lucide-react";
 import Videos from "@/components/Videos";
+import Footer from "@/components/Footer";
 
 // const fontSans = FontSans({
 //   // subsets: ["latin"],
@@ -57,6 +58,7 @@ export default function RootLayout({
           {/* <Footer /> */}
           {/* <HeroSection /> */}
           <Main>{children}</Main>
+          <Footer />
         </ThemeProvider>
         <Analytics />
       </body>
