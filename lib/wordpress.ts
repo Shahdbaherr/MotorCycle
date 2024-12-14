@@ -34,7 +34,7 @@ export async function getAllPosts(filterParams?: {
     author: filterParams?.author,
     tags: filterParams?.tag,
     categories: filterParams?.category,
-    cache: "force-cache",
+    cashe: "no-store"
   });
   const response = await fetch(url);
   const posts: Post[] = await response.json();
