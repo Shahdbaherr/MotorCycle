@@ -14,10 +14,9 @@ const VideosBanner = () => {
       }}
     >
       {/* Content container */}
-      <div className="relative z-10 px-6 md:px-12 lg:px-[6vw] mt-[5vh] lg:mt-[7vh]">
-        {/* First Heading */}
+      <div className="relative z-10 px-4 sm:px-6 md:px-12 lg:px-[6vw] mt-[3vh] sm:mt-[5vh] lg:mt-[7vh]">
         <h1
-          className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[.5]"
+          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight sm:leading-snug"
           style={{
             maxWidth: "fit-content",
             fontWeight: "bold",
@@ -25,13 +24,10 @@ const VideosBanner = () => {
         >
           Bring your style
         </h1>
-
-        {/* Second Heading */}
         <h2
-          className="text-lg md:text-3xl lg:text-6xl font-normal leading-[.5] md:mt-4"
+          className="text-base sm:text-lg md:text-3xl lg:text-6xl font-normal leading-normal sm:leading-[1.5] md:mt-4"
           style={{
-            maxWidth: "70%",
-            fontSize: "40px",
+            maxWidth: "30vw", // Adjusted for better small-screen layout
           }}
         >
           Make your dream come true

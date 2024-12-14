@@ -160,13 +160,13 @@ const NavBar = ({ className, id }: NavProps) => {
                                 </svg>
                               </button>
                               {nestedDropdownOpen === subLink.label && (
-                                <div className="absolute left-full top-0 mt-0 w-[5vw] bg-white border border-gray-300 rounded-lg shadow-lg z-20">
+                                <div className="absolute left-full top-0 mt-0 bg-white border border-gray-300 rounded-lg shadow-lg z-20 ">
                                   {subLink.nestedSubmenu.map(
                                     (nestedLink, nestedIndex) => (
                                       <Link
                                         key={nestedIndex}
                                         href={nestedLink.href}
-                                        className="block px-4 py-2 hover:text-primary rounded-lg"
+                                        className="block px-4 py-2 hover:text-primary whitespace-nowrap rounded-lg"
                                       >
                                         {nestedLink.label}
                                       </Link>
