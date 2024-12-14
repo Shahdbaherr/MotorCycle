@@ -25,10 +25,7 @@ const VideosSection = () => {
     const fetchVideos = async () => {
       try {
         const response = await fetch(
-          "https://maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id",
-          {
-            cache: "no-cache",
-          }
+          "https://maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id"
         );
         const data: ApiResponse[] = await response.json();
 
@@ -84,7 +81,6 @@ const VideosSection = () => {
       </div>
 
       <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
-        {/* Previous Button */}
         <button
           onClick={() => changePage(page - 1)}
           disabled={page === 1}
@@ -94,7 +90,6 @@ const VideosSection = () => {
               : "bg-primary text-white hover:opacity-80"
           }`}
         >
-          {/* Left Arrow Icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -108,8 +103,6 @@ const VideosSection = () => {
             />
           </svg>
         </button>
-
-        {/* Page Numbers */}
         {[...Array(totalPages)].map((_, index) => {
           const pageNumber = index + 1;
           return (
@@ -126,8 +119,6 @@ const VideosSection = () => {
             </button>
           );
         })}
-
-        {/* Next Button */}
         <button
           onClick={() => changePage(page + 1)}
           disabled={page === totalPages}
@@ -137,7 +128,6 @@ const VideosSection = () => {
               : "bg-primary text-white hover:opacity-80"
           }`}
         >
-          {/* Right Arrow Icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
