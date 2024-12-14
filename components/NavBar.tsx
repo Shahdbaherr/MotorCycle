@@ -32,6 +32,40 @@ const NavBar = ({ className, id }: NavProps) => {
     setIsMobileMenuOpen((current) => !current);
   };
 
+  const navLinks = [
+    { label: "Home", href: "#home" },
+    {
+      label: "Motorcycle",
+      submenu: [
+        { label: "Sports", href: "#sports" },
+        {
+          label: "Ports",
+          nestedSubmenu: [
+            { label: "Item 1", href: "#port-type1" },
+            { label: "Item 2", href: "#port-type2" },
+          ],
+        },
+        { label: "Cruiser", href: "#cruiser" },
+        { label: "Electric", href: "#electric" },
+      ],
+    },
+    {
+      label: "Videos",
+      submenu: [
+        { label: "Videos", href: "#videos" },
+        {
+          label: "Ports",
+          nestedSubmenu: [
+            { label: "Item 1", href: "#video-port1" },
+            { label: "Item 2", href: "#video-port2" },
+          ],
+        },
+      ],
+    },
+    { label: "Shooting", href: "#shooting" },
+    { label: "Contact Us", href: "#contact" },
+  ];
+
   return (
     <nav
       className={cn(
@@ -73,44 +107,15 @@ const NavBar = ({ className, id }: NavProps) => {
 
         {/* Navigation Links for Desktop */}
         <div className="hidden md:flex space-x-8 text-lg">
-          <Link href="#home" className="hover:text-primary transition">
-            Home
-          </Link>
-          <div className="relative">
-            <button
-              onClick={() => toggleDropdown("motorcycle")}
-              className="flex items-center hover:text-primary transition"
-            >
-              Motorcycle
-              <svg
-                className="w-4 h-4 ml-1"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            {openDropdown === "motorcycle" && (
-              <div className="absolute left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 text-black">
-                <Link
-                  href="#sports"
-                  className="block px-4 py-2 hover:text-primary rounded-lg"
-                >
-                  Sports
-                </Link>
-                <div className="relative">
+          {navLinks.map((link, index) => (
+            <div key={index} className="relative">
+              {link.submenu ? (
+                <>
                   <button
-                    onClick={() => toggleNestedDropdown("ports")}
-                    className="flex px-4 py-2 w-full text-left justify-between items-center hover:text-primary rounded-lg"
+                    onClick={() => toggleDropdown(link.label)}
+                    className="flex items-center hover:text-primary transition"
                   >
-                    Ports
+                    {link.label}
                     <svg
                       className="w-4 h-4 ml-1"
                       fill="none"
@@ -122,127 +127,78 @@ const NavBar = ({ className, id }: NavProps) => {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M9 5l7 7-7 7"
+                        d="M19 9l-7 7-7-7"
                       ></path>
                     </svg>
                   </button>
-                  {nestedDropdownOpen === "ports" && (
-                    <div className="absolute w-[5vw] left-full top-0 mt-0 bg-white border border-gray-300 rounded-lg shadow-lg z-20">
-                      <Link
-                        href="#port-type1"
-                        className="block px-4 py-2 hover:text-primary rounded-lg"
-                      >
-                        Item 1
-                      </Link>
-                      <Link
-                        href="#port-type2"
-                        className="block px-4 py-2 hover:text-primary rounded-lg"
-                      >
-                        Item 2
-                      </Link>
+                  {openDropdown === link.label && (
+                    <div className="absolute left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 text-black">
+                      {link.submenu.map((subLink, subIndex) => (
+                        <div key={subIndex} className="relative">
+                          {subLink.nestedSubmenu ? (
+                            <>
+                              <button
+                                onClick={() =>
+                                  toggleNestedDropdown(subLink.label)
+                                }
+                                className="flex px-4 py-2 text-left justify-between items-center hover:text-primary rounded-lg"
+                              >
+                                {subLink.label}
+                                <svg
+                                  className="w-4 h-4 ml-1"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M9 5l7 7-7 7"
+                                  ></path>
+                                </svg>
+                              </button>
+                              {nestedDropdownOpen === subLink.label && (
+                                <div className="absolute left-full top-0 mt-0 w-[5vw] bg-white border border-gray-300 rounded-lg shadow-lg z-20">
+                                  {subLink.nestedSubmenu.map(
+                                    (nestedLink, nestedIndex) => (
+                                      <Link
+                                        key={nestedIndex}
+                                        href={nestedLink.href}
+                                        className="block px-4 py-2 hover:text-primary rounded-lg"
+                                      >
+                                        {nestedLink.label}
+                                      </Link>
+                                    )
+                                  )}
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <Link
+                              href={subLink.href}
+                              className="block px-4 py-2 hover:text-primary rounded-lg"
+                            >
+                              {subLink.label}
+                            </Link>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   )}
-                </div>
+                </>
+              ) : (
                 <Link
-                  href="#cruiser"
-                  className="block px-4 py-2 hover:text-primary rounded-lg"
+                  href={link.href}
+                  className="hover:text-primary transition"
                 >
-                  Cruiser
+                  {link.label}
                 </Link>
-                <Link
-                  href="#electric"
-                  className="block px-4 py-2 hover:text-primary rounded-lg"
-                >
-                  Electric
-                </Link>
-              </div>
-            )}
-          </div>
-          <div className="relative">
-            <button
-              onClick={() => toggleDropdown("videos")}
-              className="flex items-center hover:text-primary transition"
-            >
-              Videos
-              <svg
-                className="w-4 h-4 ml-1"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            {openDropdown === "videos" && (
-              <div className="absolute left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 text-black">
-                <Link
-                  href="#videos"
-                  className="block px-4 py-2 hover:text-primary rounded-lg"
-                >
-                  Videos
-                </Link>
-                <div className="relative">
-                  <button
-                    onClick={() => toggleNestedDropdown("ports")}
-                    className="flex px-4 py-2 w-full text-left justify-between items-center hover:text-primary rounded-lg"
-                  >
-                    Ports
-                    <svg
-                      className="w-4 h-4 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
-                  {nestedDropdownOpen === "ports" && (
-                    <div className="absolute w-[5vw] left-full top-0 mt-0 bg-white border border-gray-300 rounded-lg shadow-lg z-20">
-                      <Link
-                        href="#port-type1"
-                        className="block px-4 py-2 hover:text-primary rounded-lg"
-                      >
-                        Item 1
-                      </Link>
-                      <Link
-                        href="#port-type2"
-                        className="block px-4 py-2 hover:text-primary rounded-lg"
-                      >
-                        Item 2
-                      </Link>
-                    </div>
-                  )}
-                </div>
-                <Link
-                  href="#cruiser"
-                  className="block px-4 py-2 hover:text-primary rounded-lg"
-                >
-                  Cruiser
-                </Link>
-              </div>
-            )}
-          </div>
-          <Link href="#shooting" className="hover:text-primary transition">
-            Shooting
-          </Link>
-          <Link href="#contact" className="hover:text-primary transition">
-            Contact Us
-          </Link>
+              )}
+            </div>
+          ))}
         </div>
-
-        {/* Search Bar */}
         <div className="hidden md:flex items-center relative w-[289px]">
           <input
             type="text"
@@ -286,21 +242,105 @@ const NavBar = ({ className, id }: NavProps) => {
               />
             </svg>
           </button>
-          <Link href="#home" className="text-white text-xl mb-4">
-            Home
-          </Link>
-          <Link href="#motorcycle" className="text-white text-xl mb-4">
-            Motorcycle
-          </Link>
-          <Link href="#videos" className="text-white text-xl mb-4">
-            Videos
-          </Link>
-          <Link href="#shooting" className="text-white text-xl mb-4">
-            Shooting
-          </Link>
-          <Link href="#contact" className="text-white text-xl">
-            Contact Us
-          </Link>
+          <div className="w-full px-4 flex flex-col items-center">
+            {navLinks.map((link, index) => (
+              <div key={index} className="text-white text-xl py-2 border-b">
+                {link.submenu ? (
+                  <>
+                    <button
+                      onClick={() => toggleDropdown(link.label)}
+                      className="flex justify-between w-full text-left items-center hover:text-primary"
+                    >
+                      {link.label}
+                      <svg
+                        className={`w-5 h-5 transition-transform ${
+                          openDropdown === link.label ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 9l-7 7-7-7"
+                        ></path>
+                      </svg>
+                    </button>
+                    {openDropdown === link.label && (
+                      <div className="ml-4 mt-2">
+                        {link.submenu.map((subLink, subIndex) => (
+                          <div key={subIndex} className="relative">
+                            {subLink.nestedSubmenu ? (
+                              <>
+                                <button
+                                  onClick={() =>
+                                    toggleNestedDropdown(subLink.label)
+                                  }
+                                  className="flex justify-between w-full text-sm text-left items-center hover:text-primary"
+                                >
+                                  {subLink.label}
+                                  <svg
+                                    className={`w-4 h-4 transition-transform ${
+                                      nestedDropdownOpen === subLink.label
+                                        ? "rotate-90"
+                                        : ""
+                                    }`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M9 5l7 7-7 7"
+                                    ></path>
+                                  </svg>
+                                </button>
+                                {nestedDropdownOpen === subLink.label && (
+                                  <div className="ml-4 mt-2">
+                                    {subLink.nestedSubmenu.map(
+                                      (nestedLink, nestedIndex) => (
+                                        <Link
+                                          key={nestedIndex}
+                                          href={nestedLink.href}
+                                          className="block text-sm py-2 hover:text-primary"
+                                        >
+                                          {nestedLink.label}
+                                        </Link>
+                                      )
+                                    )}
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <Link
+                                href={subLink.href}
+                                className="block text-sm py-2 hover:text-primary"
+                              >
+                                {subLink.label}
+                              </Link>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className="text-white text-xl py-2 block hover:text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </nav>

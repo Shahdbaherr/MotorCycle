@@ -18,17 +18,20 @@ const Contact = () => {
         <ImageCard imgSrc="/Contact Us.png" />
       </div>
       <div className="flex flex-col md:flex-row md:flex-nowrap items-center md:items-start">
-        {/* Left Section */}
-        <div className="relative w-full md:w-3/5 h-[60vh]">
+        {/* Left Section  */}
+        <div className="relative w-full md:w-3/5 h-[60vh] hidden md:block">
           <div
-            className="w-full sm:w-full md:w-[65vw] h-[65vh] bg-cover bg-center"
-            style={{ backgroundImage: "url('/motorcyclee.png')" }}
+            className="w-full h-[65vh] bg-cover bg-center"
+            style={{
+              backgroundImage: "url('/motorcyclee.png')",
+              width: "1200px",
+            }}
           ></div>
         </div>
 
-        {/* Right Form Section */}
-        <div className="relative w-full md:w-2/5  md:h-[65vh] bg-white flex flex-col items-center rounded-none md:rounded-tl-3xl md:rounded-bl-3xl justify-center  md:p-12 ">
-          <div className="max-w-md w-full flex flex-col">
+        {/* Right Form Section  */}
+        <div className="relative w-full md:w-2/5 h-[60vh] md:h-[65vh] bg-white flex flex-col items-center rounded-none md:rounded-tl-3xl md:rounded-bl-3xl justify-center md:p-12">
+          <div className="max-w-md w-full flex flex-col ">
             <p className="text-black text-2xl mb-6 text-center md:text-left">
               Our team is always available to assist you.
               <br />
@@ -75,6 +78,13 @@ const Contact = () => {
                     }}
                   />
                 </div>
+                <button
+                  type="submit"
+                  className="w-full mt-[1vh] bg-primary text-white py-2 rounded-md"
+                  style={{ backgroundColor: "#B00E0A" }}
+                >
+                  Submit
+                </button>
               </div>
             </form>
           </div>
