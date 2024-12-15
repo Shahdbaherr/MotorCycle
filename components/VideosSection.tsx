@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import ImageCard from "./ImageCard";
@@ -19,6 +20,7 @@ interface ApiResponse {
 const VideosSection = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [page, setPage] = useState(1);
+  const { theme } = useTheme();
   const videosPerPage = 6;
 
   useEffect(() => {
@@ -52,18 +54,18 @@ const VideosSection = () => {
       setPage(newPage);
     }
   };
-
+  const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
+  const textColor = theme === "light" ? "#000000" : "#FFFFFF";
+  const imageSource = theme === "light" ? "/videosLight.png" : "/Videos.png";
   return (
     <div
-      className="text-white min-h-screen overflow-hidden px-4 md:px-10"
-      style={{ backgroundColor: "#0E0B0B" }}
+      className="min-h-screen overflow-hidden px-4 md:px-10"
+      style={{ backgroundColor, color: textColor }}
     >
-      {/* Header Section */}
       <div>
-        <ImageCard imgSrc="/Videos.png" />
+        <ImageCard imgSrc={imageSource} />
       </div>
 
-      {/* Videos Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-5 mt-10">
         {displayedVideos.length === 0 ? (
           <div className="text-center text-xl">No videos available.</div>
@@ -80,6 +82,7 @@ const VideosSection = () => {
         )}
       </div>
 
+      {/* Pagination */}
       <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
         <button
           onClick={() => changePage(page - 1)}
@@ -109,7 +112,7 @@ const VideosSection = () => {
             <button
               key={pageNumber}
               onClick={() => changePage(pageNumber)}
-              className={`text-white text-xl relative ${
+              className={`text-xl relative ${
                 page === pageNumber
                   ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
                   : "hover:text-gray-400"

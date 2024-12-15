@@ -1,4 +1,5 @@
-
+import { ThemeToggle } from "./theme/theme-toggle";
+import Image from "next/image";
 const footerData = {
   logo: {
     src: "/images/logo.png",
@@ -55,12 +56,14 @@ const Footer = () => {
           {/* Logo and Social Links */}
           <div className="flex flex-col max-w-[550px] my-auto mt-4 md:items-start">
             <a href="/" aria-current="page" className="inline-block">
-              <img
+              <Image
                 src={footerData.logo.src}
                 alt={footerData.logo.alt}
-                className="w-[150px]"
+                width={150}
+                height={50}
               />
             </a>
+
             <div className="flex space-x-6 mt-6">
               {footerData.socialLinks.map((link, index) => (
                 <a
@@ -70,17 +73,20 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="hover:opacity-80"
                 >
-                  <img
+                  <Image
                     src={link.icon}
                     alt={link.alt}
-                    className="w-8 h-8"
+                    width={32}
+                    height={32}
                   />
                 </a>
               ))}
             </div>
+            <div className="mt-4">
+              <ThemeToggle />
+            </div>
           </div>
 
-          {/* Dynamic Sections */}
           {footerData.sections.map((section, index) => (
             <div
               key={index}

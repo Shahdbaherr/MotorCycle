@@ -1,24 +1,22 @@
 "use client";
 import Image from "next/image";
 import ImageCard from "./ImageCard";
-
+import { useTheme } from "next-themes";
 const Contact = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted");
-  };
-
+  const { theme } = useTheme();
+  const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
+  const textColor = theme === "light" ? "#000000" : "#FFFFFF";
+  const imageSource =
+    theme === "light" ? "/contactLight.png" : "/Contact Us.png";
   return (
     <div
       className="text-white min-h-screen overflow-hidden"
-      style={{ backgroundColor: "#0E0B0B" }}
+      style={{ backgroundColor, color: textColor }}
     >
-      {/* Header Section */}
       <div>
-        <ImageCard imgSrc="/Contact Us.png" />
+        <ImageCard imgSrc={imageSource} />
       </div>
       <div className="flex flex-col md:flex-row md:flex-nowrap items-center md:items-start">
-        {/* Left Section  */}
         <div className="relative w-full md:w-3/5 h-[60vh] hidden md:block">
           <div
             className="w-full h-[65vh] bg-cover bg-center"
@@ -29,7 +27,6 @@ const Contact = () => {
           ></div>
         </div>
 
-        {/* Right Form Section  */}
         <div className="relative w-full md:w-2/5 h-[60vh] md:h-[65vh] bg-white flex flex-col items-center rounded-none md:rounded-tl-3xl md:rounded-bl-3xl justify-center md:p-12">
           <div className="max-w-md w-full flex flex-col ">
             <p className="text-black text-2xl mb-6 text-center md:text-left">
@@ -37,8 +34,7 @@ const Contact = () => {
               <br />
               Contact us whenever you want!
             </p>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email Input */}
+            <form className="space-y-6">
               <div className="relative">
                 <div className="flex items-center gap-3 mt-[6vh]">
                   <svg

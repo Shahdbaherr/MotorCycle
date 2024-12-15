@@ -3,12 +3,12 @@ import ImageCard from "./ImageCard";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
-// Define types for API response
 interface ImageData {
   id: number;
   acf: {
-    image_urls: string[]; // Array of image URLs from ACF field
+    image_urls: string[];
   };
 }
 
@@ -17,7 +17,8 @@ type ShootingProps = {
 };
 
 const Shooting = ({ condition }: ShootingProps) => {
-  const [images, setImages] = useState<string[]>([]); // Store image URLs
+  const [images, setImages] = useState<string[]>([]);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -27,10 +28,7 @@ const Shooting = ({ condition }: ShootingProps) => {
         );
         const data: ImageData[] = await response.json();
 
-        // Extract all image URLs
         const allImages = data.flatMap((item) => item.acf.image_urls || []);
-
-        // Select images based on the condition
         const selectedImages = condition ? allImages.slice(0, 3) : allImages;
 
         setImages(selectedImages);
@@ -41,18 +39,21 @@ const Shooting = ({ condition }: ShootingProps) => {
 
     fetchImages();
   }, [condition]);
-
+  const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
+  const textColor = theme === "light" ? "#000000" : "#FFFFFF";
+  const buttonBackground = theme === "light" ? "#000000" : "#FFFFFF";
+  const buttonTextColor = theme === "light" ? "#FFFFFF" : "#000000";
+  const buttonBorderColor = theme === "light" ? "#000000" : "#FFFFFF";
+  const imageSource =
+    theme === "light" ? "/shootingLight.png" : "/Shooting.png";
   return (
     <div
       className="text-white min-h-screen overflow-hidden px-4 md:px-10"
-      style={{ backgroundColor: "#0E0B0B" }}
+      style={{ backgroundColor, color: textColor }}
     >
-      {/* Header Section */}
       <div>
-        <ImageCard imgSrc="/Shooting.png" />
+        <ImageCard imgSrc={imageSource} />
       </div>
-
-      {/* Images Section */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 ml-[1vw] sm:ml-[.5vw]">
         {images.length === 0 ? (
           <div className="text-center text-xl">No images available.</div>
@@ -73,7 +74,14 @@ const Shooting = ({ condition }: ShootingProps) => {
 
       <div className="flex justify-center items-center pb-10">
         <Link href="#" passHref>
-          <button className="inline-block px-6 py-1 text-white border rounded-lg border-white uppercase tracking-wide hover:bg-white hover:text-black transition duration-200 text-xl">
+          <button
+            className="inline-block px-6 py-2 mt-6 uppercase tracking-wide rounded-lg transition duration-200 text-xl"
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+              border: `1px solid ${buttonBorderColor}`,
+            }}
+          >
             SHOW MORE
           </button>
         </Link>

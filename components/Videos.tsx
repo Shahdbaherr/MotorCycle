@@ -1,27 +1,28 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import ImageCard from "./ImageCard";
+import { useTheme } from "next-themes";
 
-// Define types for video data
 interface Video {
   id: number;
-  videoId: string; // videoId can be null if not found
+  videoId: string;
 }
 
 interface ApiResponse {
   id: number;
   acf: {
-    id?: string; // The video ID,
+    id?: string;
   };
 }
 
 const Videos = () => {
-  const [videos, setVideos] = useState<Video[]>([]); // State for videos with proper typing
+  const [videos, setVideos] = useState<Video[]>([]);
   const [page, setPage] = useState(1);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -31,10 +32,9 @@ const Videos = () => {
         );
         const data: ApiResponse[] = await response.json();
 
-        // Limit to 3 videos if more than 3 are fetched
         const videosData = data.slice(0, 3).map((post) => ({
           id: post.id,
-          videoId: post.acf?.id || "", // Set default empty string if no videoId is available
+          videoId: post.acf?.id || "",
         }));
 
         setVideos(videosData);
@@ -44,39 +44,23 @@ const Videos = () => {
     };
 
     fetchVideos();
-  }, []); // Empty dependency array to run once on component mount
+  }, []);
 
-  const loadMore = async () => {
-    try {
-      const response = await fetch(
-        `https://maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id&per_page=3&page=${
-          page + 1
-        }`
-      );
-      const data: ApiResponse[] = await response.json();
-
-      // 3 videos per page
-      setVideos((prevVideos: Video[]) => [
-        ...prevVideos,
-        ...data.slice(0, 3).map((post) => ({
-          id: post.id,
-          videoId: post.acf?.id || "", // Ensure videoId is always set
-        })),
-      ]);
-      setPage(page + 1);
-    } catch (error) {
-      console.error("Error loading more videos:", error);
-    }
-  };
+  const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
+  const textColor = theme === "light" ? "#000000" : "#FFFFFF";
+  const buttonBackground = theme === "light" ? "#000000" : "#FFFFFF";
+  const buttonTextColor = theme === "light" ? "#FFFFFF" : "#000000";
+  const buttonBorderColor = theme === "light" ? "#000000" : "#FFFFFF";
+  const imageSource = theme === "light" ? "/videosLight.png" : "/Videos.png";
 
   return (
     <div
-      className="text-white min-h-screen overflow-hidden px-4 md:px-10"
-      style={{ backgroundColor: "#0E0B0B" }}
+      className="min-h-screen overflow-hidden px-4 md:px-10"
+      style={{ backgroundColor, color: textColor }}
     >
       {/* Header Section */}
       <div>
-        <ImageCard imgSrc="/Videos.png" />
+        <ImageCard imgSrc={imageSource} />
       </div>
 
       {/* Videos Section */}
@@ -85,22 +69,24 @@ const Videos = () => {
           <div className="text-center text-xl">No videos available.</div>
         ) : (
           videos.map((video) => (
-            <div key={video.id} className="relative ">
-              {/* YouTube Embedded Video */}
-
-              <LiteYouTubeEmbed
-                id={video.videoId}
-                title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
-              />
+            <div key={video.id} className="relative">
+              <LiteYouTubeEmbed id={video.videoId} title="Video Preview" />
             </div>
           ))
         )}
       </div>
 
-      {/* Show More Button */}
+      {/* Button Section */}
       <div className="flex justify-center items-center pb-10">
         <Link href="#" passHref>
-          <button className="inline-block px-6 py-1 mt-6 text-white border rounded-lg border-white uppercase tracking-wide hover:bg-white hover:text-black transition duration-200 text-xl">
+          <button
+            className="inline-block px-6 py-2 mt-6 uppercase tracking-wide rounded-lg transition duration-200 text-xl"
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+              border: `1px solid ${buttonBorderColor}`,
+            }}
+          >
             SHOW MORE
           </button>
         </Link>
