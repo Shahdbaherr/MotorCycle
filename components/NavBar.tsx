@@ -34,7 +34,7 @@ const NavBar = ({ className, id }: NavProps) => {
   };
 
   const navLinks = [
-    { label: "Home", href: "#home" },
+    { label: "Home", href: "/" },
     {
       label: "Motorcycle",
       submenu: [
@@ -53,7 +53,7 @@ const NavBar = ({ className, id }: NavProps) => {
     {
       label: "Videos",
       submenu: [
-        { label: "Videos", href: "#videos" },
+        { label: "Videos", href: "/videos" },
         {
           label: "Ports",
           nestedSubmenu: [
@@ -63,8 +63,8 @@ const NavBar = ({ className, id }: NavProps) => {
         },
       ],
     },
-    { label: "Shooting", href: "#shooting" },
-    { label: "Contact Us", href: "#contact" },
+    { label: "Shooting", href: "/shooting" },
+    { label: "Contact Us", href: "/contact" },
   ];
 
   return (
@@ -92,15 +92,16 @@ const NavBar = ({ className, id }: NavProps) => {
               : ""
           }`}
         >
-          {/* Logo */}
           <div className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt="logo"
-              width={150}
-              height={75}
-              priority
-            />
+            <Link href="/">
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width={150}
+                height={75}
+                priority
+              />
+            </Link>
           </div>
 
           {/* Hamburger Icon for Mobile */}

@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import ImageCard from "./ImageCard";
-
+import notFound from "@/app/not-found";
 interface Video {
   id: number;
   videoId: string;
@@ -30,6 +30,9 @@ const VideosSection = () => {
           "https://dashboard.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id"
         );
         const data: ApiResponse[] = await response.json();
+        if (response.status === 404) {
+          notFound();
+        }
 
         const videosData = data.map((post) => ({
           id: post.id,

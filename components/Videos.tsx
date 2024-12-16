@@ -78,7 +78,7 @@ const Videos = () => {
 
       {/* Button Section */}
       <div className="flex justify-center items-center pb-10">
-        <Link href="#" passHref>
+        <Link href="/videos" passHref>
           <button
             className="inline-block px-6 py-2 mt-6 uppercase tracking-wide rounded-lg transition duration-200 text-xl"
             style={{

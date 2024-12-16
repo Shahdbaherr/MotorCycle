@@ -1,3 +1,4 @@
+import { Link } from "lucide-react";
 import Image from "next/image";
 
 const HeroSection = () => {
@@ -27,12 +28,10 @@ const HeroSection = () => {
 
             {/* Button Container */}
             <div className="flex flex-wrap items-center space-x-4">
-              {/* Shop Button */}
               <button className="px-6 md:px-8 lg:px-16 py-3 md:py-3 text-white rounded-full transition border border-white text-sm md:text-lg lg:text-3xl">
                 Shop
               </button>
 
-              {/* Arrow Button */}
               <button className="w-10 md:w-12 lg:w-14 h-10 md:h-12 lg:h-14 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -62,14 +61,14 @@ const HeroSection = () => {
                 backgroundRepeat: "no-repeat",
               }}
             >
-                <div className="flex items-center justify-between">
-                  <button className="bg-gradient-custo shadow-lg backdrop-blur-custom text-white px-3 md:px-4 py-1 md:py-2 rounded-full">
-                    Motorcycle
-                  </button>
-                  <div className="bg-primary text-white px-4 md:px-6 py-1 rounded-xl cursor-pointer hidden md:block">
-                    View
-                  </div>
+              <div className="flex items-center justify-between">
+                <button className="bg-gradient-custo shadow-lg backdrop-blur-custom text-white px-3 md:px-4 py-1 md:py-2 rounded-full">
+                  Motorcycle
+                </button>
+                <div className="bg-primary text-white px-4 md:px-6 py-1 rounded-xl cursor-pointer hidden md:block">
+                  View
                 </div>
+              </div>
               <h2 className="text-primary text-sm md:text-lg lg:text-xl mb-2">
                 Sa3dawy Garage
               </h2>
