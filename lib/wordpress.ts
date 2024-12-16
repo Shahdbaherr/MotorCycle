@@ -202,3 +202,15 @@ export async function getFeaturedMediaById(id: number): Promise<FeaturedMedia> {
   const featuredMedia: FeaturedMedia = await response.json();
   return featuredMedia;
 }
+export async function getImages(): Promise<string[]> {
+  const response = await fetch(
+    "https://dashboard.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls"
+  );
+
+  const data = await response.json();
+
+  // Flatten the image URLs into a single array
+  return data.flatMap(
+    (item: { acf: { image_urls: string[] } }) => item.acf.image_urls || []
+  );
+}
