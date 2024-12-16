@@ -24,7 +24,7 @@ const Shooting = ({ condition }: ShootingProps) => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          "https://maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls"
+          "https://dashboard.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls"
         );
         const data: ImageData[] = await response.json();
 

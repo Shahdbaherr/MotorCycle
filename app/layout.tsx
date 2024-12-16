@@ -1,41 +1,23 @@
-import type { Metadata } from "next";
-// import { Inter as FontSans } from "next/font/google";
+import { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import Nav from "@/components/NavBar";
 import "./globals.css";
-
-import { Button } from "@/components/ui/button";
-import { MobileNav } from "@/components/nav/mobile-nav";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Main } from "@/components/craft";
-import { mainMenu, contentMenu } from "@/menu.config";
-import { Section, Container } from "@/components/craft";
-import Balancer from "react-wrap-balancer";
-import Car from "@/public/Car.png";
-import logo from "@/public/logo.png";
-
-import Image from "next/image";
-import Link from "next/link";
-
 import { cn } from "@/lib/utils";
-import Categories from "@/components/Categories";
-import { Layout } from "lucide-react";
-import Videos from "@/components/Videos";
 import Footer from "@/components/Footer";
 
 // const fontSans = FontSans({
 //   // subsets: ["latin"],
 //   variable: "--font-sans",
 // });
-
 export const metadata: Metadata = {
-  title: "WordPress & Next.js Starter by 9d8",
-  description:
-    "A starter template for Next.js with WordPress as a headless CMS.",
-  metadataBase: new URL("https://wp.9d8.dev"),
+  title: {
+    default: "Maator",
+    template: "%s - Explore MotorCycles",
+  },
+  description: "Your go to source for all motorcycles.",
 };
-
 // Revalidate content every hour
 export const revalidate = 3600;
 

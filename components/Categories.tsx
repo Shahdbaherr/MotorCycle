@@ -24,7 +24,7 @@ const Categories = ({ home }: categoriesProps) => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          "https://maator.com/wp-json/wp/v2/groups?acf_format=standard&_fields=acf.group_urls"
+          "https://dashboard.maator.com/wp-json/wp/v2/groups?acf_format=standard&_fields=acf.group_urls"
         );
         const data: GroupData[] = await response.json();
         const fetchedImages = data.flatMap((group) => group.acf.group_urls);

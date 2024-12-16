@@ -27,7 +27,7 @@ const VideosSection = () => {
     const fetchVideos = async () => {
       try {
         const response = await fetch(
-          "https://maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id"
+          "https://dashboard.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id"
         );
         const data: ApiResponse[] = await response.json();
 

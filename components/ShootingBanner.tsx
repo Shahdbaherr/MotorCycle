@@ -53,15 +53,13 @@ const ShootingBanner = () => {
           </div>
         </div>
 
-        <div className="relative flex items-center justify-center w-full md:w-1/2 self-center h-auto mr-[12vw]">
-          <Image
-            src="/motors.png"
-            alt="Motorcycle"
-            width={1000}
-            height={600}
-            className="object-contain max-w-full md:max-w-[45vw] mt-0"
-          />
-        </div>
+        <Image
+          src="/motors.png"
+          alt="Motorcycle"
+          width={1000}
+          height={600}
+          className="object-contain "
+        />
       </div>
     </section>
   );
