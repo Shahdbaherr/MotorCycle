@@ -13,7 +13,7 @@ import {
   FeaturedMedia,
 } from "./wordpress.d";
 
-// WordPress Config
+// WordPress Config env
 
 const baseUrl = process.env.WORDPRESS_URL;
 
