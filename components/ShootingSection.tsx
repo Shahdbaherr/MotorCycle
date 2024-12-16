@@ -5,13 +5,13 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import ImageCard from "./ImageCard";
 import notFound from "@/app/not-found";
-import { getImages } from "@/lib/wordpress"; // Import the API helper for images
+import { getImages } from "@/lib/wordpress";
 
 const ShootingSection = () => {
-  const [images, setImages] = useState<string[]>([]); // Store only image URLs
-  const [page, setPage] = useState(1); // For pagination
+  const [images, setImages] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
   const { theme } = useTheme();
-  const imagesPerPage = 6; // Number of images per page
+  const imagesPerPage = 6;
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -27,9 +27,8 @@ const ShootingSection = () => {
     fetchImages();
   }, []);
 
-  // Pagination logic
   const startIndex = (page - 1) * imagesPerPage;
-  const displayedImages = images.slice(startIndex, startIndex + imagesPerPage); // Slice images for current page
+  const displayedImages = images.slice(startIndex, startIndex + imagesPerPage);
   const totalPages = Math.ceil(images.length / imagesPerPage);
 
   const changePage = (newPage: number) => {
@@ -40,6 +39,8 @@ const ShootingSection = () => {
 
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
+  const imageSource =
+    theme === "light" ? "/shootingLight.png" : "/Shooting.png";
 
   return (
     <div
@@ -47,7 +48,7 @@ const ShootingSection = () => {
       style={{ backgroundColor, color: textColor }}
     >
       <div>
-        <ImageCard imgSrc="/shooting.png" />
+        <ImageCard imgSrc={imageSource} />
       </div>
 
       {/* Images Grid */}
@@ -68,8 +69,6 @@ const ShootingSection = () => {
           ))
         )}
       </div>
-
-      {/* Pagination */}
       <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
         <button
           onClick={() => changePage(page - 1)}
