@@ -7,6 +7,7 @@ import { Main } from "@/components/craft";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/progressBar";
+import { Suspense } from "react";
 export const metadata: Metadata = {
   title: {
     default: "Maator",
@@ -26,18 +27,22 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body className={cn(" font-sans bg-cover bg-center bg-no-repeat")}>
-        <ProgressBar />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Nav />
-          <Main>{children}</Main>
-          <Footer />
-        </ThemeProvider>
-        <Analytics />
+        <Suspense>
+          <ProgressBar />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Nav />
+
+            <Main>{children}</Main>
+
+            <Footer />
+          </ThemeProvider>
+          <Analytics />
+        </Suspense>
       </body>
     </html>
   );

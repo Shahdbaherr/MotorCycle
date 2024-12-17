@@ -1,8 +1,9 @@
 "use client";
-import { useEffect } from "react";
+
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 export default function ProgressBar() {
   const pathname = usePathname();
@@ -18,18 +19,20 @@ export default function ProgressBar() {
   }, [pathname, searchParams]);
 
   return (
-    <style jsx global>{`
-      #nprogress .bar {
-        background: #dd253d !important;
-        height: 4px;
-      }
-      #nprogress .spinner-icon {
-        border-top-color: #dd253d !important;
-        border-left-color: #dd253d !important;
-      }
-      #nprogress .spinner {
-        display: none;
-      }
-    `}</style>
+    <>
+      <style jsx global>{`
+        #nprogress .bar {
+          background: #dd253d !important;
+          height: 4px;
+        }
+        #nprogress .spinner-icon {
+          border-top-color: #dd253d !important;
+          border-left-color: #dd253d !important;
+        }
+        #nprogress .spinner {
+          display: none;
+        }
+      `}</style>
+    </>
   );
 }
