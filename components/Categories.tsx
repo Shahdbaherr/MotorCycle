@@ -12,31 +12,65 @@ type categoriesProps = {
 
 type GroupData = {
   acf: any;
-  group_urls: string[];
+  group_urls: any[];
 };
 
 const Categories = ({ home }: categoriesProps) => {
-  const [images, setImages] = useState<string[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
+  const images = [
+    {
+      src: "https://ik.imagekit.io/xcyd6uv91/bike1.jpg",
+      alt: "bike",
+    },
+    {
+      src: "https://ik.imagekit.io/xcyd6uv91/bike2.jpg",
+      alt: "bike",
+    },
+    {
+      src: "https://ik.imagekit.io/xcyd6uv91/bike3.jpg",
+      alt: "bike",
+    },
+    {
+      src: "https://ik.imagekit.io/xcyd6uv91/bike4.jpg",
+      alt: "bike",
+    },
+  ];
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/groups?acf_format=standard&_fields=acf.group_urls"
+          "https://dashboard.maator.com/wp-json/wp/v2/motorcycles?acf_format=standard"
         );
         const data: GroupData[] = await response.json();
-        const fetchedImages = data.flatMap((group) => group.acf.group_urls);
-        setImages(fetchedImages);
+        const categoryMap: Record<string, any[]> = {};
+        data.forEach((item: any) => {
+          if (item.acf?.category?.name && item.acf?.type) {
+            if (!categoryMap[item.acf.category.name]) {
+              categoryMap[item.acf.category.name] = [];
+            }
+            categoryMap[item.acf.category.name].push({
+              name: item.acf.category.name,
+              type: item.acf.type,
+            });
+          }
+        });
+        const categories = Object.keys(categoryMap).map((categoryName) => ({
+          label: categoryName,
+          items: categoryMap[categoryName],
+        }));
+
+        setCategories(categories);
       } catch (error) {
-        console.error("Error fetching images:", error);
+        console.error("Error fetching categories:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchImages();
+    fetchCategories();
   }, []);
 
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
@@ -58,49 +92,51 @@ const Categories = ({ home }: categoriesProps) => {
           {loading ? (
             <p className="col-span-full text-center">Loading images...</p>
           ) : (
-            images.slice(0, home ? 3 : images.length).map((src, index) => (
-              <div
-                key={index}
-                className="relative w-full h-[521px] rounded-lg overflow-hidden"
-              >
-                <Image
-                  src={src}
-                  alt={`Image ${index + 1}`}
-                  layout="fill"
-                  quality={100}
-                  className="rounded-lg object-cover"
-                />
+            categories
+              .slice(0, home ? 3 : categories.length)
+              .map((category, index) => (
                 <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%)",
-                    zIndex: 10,
-                  }}
-                ></div>
-
-                <div className="absolute inset-x-0 bottom-4 text-center z-20 text-white">
-                  <h3
-                    className="text-2xl font-semibold"
-                    style={{ color: "white" }}
-                  >
-                    HONDA
-                  </h3>
-                  <p className="text-lg">CB650F 2017 RED&BLACK</p>
-                  <a
-                    href="#"
-                    className="text-md mt-2 underline-offset-2 hover:underline"
+                  key={index}
+                  className="relative w-full h-[521px] rounded-lg overflow-hidden"
+                >
+                  <Image
+                    src={images[index].src}
+                    alt={images[index].alt}
+                    layout="fill"
+                    quality={100}
+                    className="rounded-lg object-cover"
+                  />
+                  <div
+                    className="absolute inset-0"
                     style={{
-                      textDecorationColor: "white",
-                      textDecorationThickness: ".8px",
-                      color: "white",
+                      background:
+                        "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%)",
+                      zIndex: 10,
                     }}
-                  >
-                    Learn more
-                  </a>
+                  ></div>
+
+                  <div className="absolute inset-x-0 bottom-4 text-center z-20 text-white">
+                    <h3
+                      className="text-2xl font-semibold"
+                      style={{ color: "white" }}
+                    >
+                      {category.label}
+                    </h3>
+                    <p className="text-lg">CB650F 2017 RED&BLACK</p>
+                    <a
+                      href="#"
+                      className="text-md mt-2 underline-offset-2 hover:underline"
+                      style={{
+                        textDecorationColor: "white",
+                        textDecorationThickness: ".8px",
+                        color: "white",
+                      }}
+                    >
+                      Learn more
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
           )}
         </div>
 
