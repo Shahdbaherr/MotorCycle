@@ -5,61 +5,56 @@ import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import ImageCard from "./ImageCard";
 import notFound from "@/app/not-found";
+
 interface Video {
   id: number;
   videoId: string;
 }
 
-interface ApiResponse {
-  id: number;
-  acf: {
-    id?: string;
-  };
-}
-
 const VideosSection = () => {
   const [videos, setVideos] = useState<Video[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const { theme } = useTheme();
-  const videosPerPage = 6;
 
   useEffect(() => {
     const fetchVideos = async () => {
+      setIsLoading(true);
       try {
-        const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id"
-        );
-        const data: ApiResponse[] = await response.json();
+        const url = `https://dashboard.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id&page=${page}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
         if (response.status === 404) {
           notFound();
         }
 
-        const videosData = data.map((post) => ({
+        const videosData = data.map((post: any) => ({
           id: post.id,
           videoId: post.acf?.id || "",
         }));
 
         setVideos(videosData);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching videos:", error);
+        setIsLoading(false);
       }
     };
 
     fetchVideos();
-  }, []);
-
-  const startIndex = (page - 1) * videosPerPage;
-  const displayedVideos = videos.slice(startIndex, startIndex + videosPerPage);
-  const totalPages = Math.ceil(videos.length / videosPerPage);
+  }, [page]);
 
   const changePage = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
+    if (newPage === 1 || newPage === 2) {
       setPage(newPage);
     }
   };
+
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
   const imageSource = theme === "light" ? "/videosLight.png" : "/Videos.png";
+
   return (
     <div
       className="min-h-screen overflow-hidden px-4 md:px-10"
@@ -70,12 +65,20 @@ const VideosSection = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-5 mt-10">
-        {displayedVideos.length === 0 ? (
+        {isLoading ? (
+          Array(6)
+            .fill(0)
+            .map((_, index) => (
+              <div
+                key={index}
+                className="bg-gray-200 animate-pulse h-48 w-full rounded-md"
+              ></div>
+            ))
+        ) : videos.length === 0 ? (
           <div className="text-center text-xl">No videos available.</div>
         ) : (
-          displayedVideos.map((video) => (
+          videos.map((video) => (
             <div key={video.id} className="relative">
-              {/* YouTube Embedded Video */}
               <LiteYouTubeEmbed
                 id={video.videoId}
                 title={`Video ${video.id}`}
@@ -84,11 +87,9 @@ const VideosSection = () => {
           ))
         )}
       </div>
-
-      {/* Pagination */}
       <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
         <button
-          onClick={() => changePage(page - 1)}
+          onClick={() => changePage(1)}
           disabled={page === 1}
           className={`flex items-center justify-center w-10 h-10 rounded-full ${
             page === 1
@@ -109,27 +110,34 @@ const VideosSection = () => {
             />
           </svg>
         </button>
-        {[...Array(totalPages)].map((_, index) => {
-          const pageNumber = index + 1;
-          return (
-            <button
-              key={pageNumber}
-              onClick={() => changePage(pageNumber)}
-              className={`text-xl relative ${
-                page === pageNumber
-                  ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
-                  : "hover:text-gray-400"
-              }`}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
+
         <button
-          onClick={() => changePage(page + 1)}
-          disabled={page === totalPages}
+          onClick={() => changePage(1)}
+          disabled={page === 1}
+          className={`text-xl relative ${
+            page === 1
+              ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
+              : "hover:text-gray-400"
+          }`}
+        >
+          1
+        </button>
+        <button
+          onClick={() => changePage(2)}
+          disabled={page === 2}
+          className={`text-xl relative ${
+            page === 2
+              ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
+              : "hover:text-gray-400"
+          }`}
+        >
+          2
+        </button>
+        <button
+          onClick={() => changePage(2)}
+          disabled={page === 2}
           className={`flex items-center justify-center w-10 h-10 rounded-full ${
-            page === totalPages
+            page === 2
               ? "opacity-50 cursor-not-allowed bg-gray-500"
               : "bg-primary text-white hover:opacity-80"
           }`}

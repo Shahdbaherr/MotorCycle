@@ -20,18 +20,9 @@ const Categories = ({ home }: categoriesProps) => {
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
   const images = [
-    {
-      src: "https://ik.imagekit.io/xcyd6uv91/bike1.jpg",
-      alt: "bike",
-    },
-    {
-      src: "https://ik.imagekit.io/xcyd6uv91/bike2.jpg",
-      alt: "bike",
-    },
-    {
-      src: "https://ik.imagekit.io/xcyd6uv91/bike3.jpg",
-      alt: "bike",
-    },
+    { src: "https://ik.imagekit.io/xcyd6uv91/image(1).png", alt: "bike1" },
+    { src: "https://ik.imagekit.io/xcyd6uv91/image(2).png", alt: "bike2" },
+    { src: "https://ik.imagekit.io/xcyd6uv91/image(3).png", alt: "bike3" },
     {
       src: "https://ik.imagekit.io/xcyd6uv91/bike4.jpg",
       alt: "bike",
@@ -117,12 +108,11 @@ const Categories = ({ home }: categoriesProps) => {
 
                   <div className="absolute inset-x-0 bottom-4 text-center z-20 text-white">
                     <h3
-                      className="text-2xl font-semibold"
+                      className="text-3xl font-semibold"
                       style={{ color: "white" }}
                     >
                       {category.label}
                     </h3>
-                    <p className="text-lg">CB650F 2017 RED&BLACK</p>
                     <a
                       href="#"
                       className="text-md mt-2 underline-offset-2 hover:underline"
@@ -142,7 +132,7 @@ const Categories = ({ home }: categoriesProps) => {
 
         {/* Button Section */}
         <div className="flex justify-center items-center mt-10 pb-10">
-          <Link href="#" passHref>
+          <Link href="/categories" passHref>
             <button
               className="px-6 py-2 uppercase tracking-wide rounded-lg transition duration-200 text-xl"
               style={{
