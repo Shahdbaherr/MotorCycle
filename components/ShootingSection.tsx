@@ -12,11 +12,7 @@ interface ImageData {
   };
 }
 
-type ShootingProps = {
-  condition: boolean;
-};
-
-const Shooting = ({ condition }: ShootingProps) => {
+const Shooting = () => {
   const [images, setImages] = useState<{ [key: number]: string[] }>({});
   const [page, setPage] = useState(1);
   const { theme } = useTheme();
@@ -39,7 +35,7 @@ const Shooting = ({ condition }: ShootingProps) => {
     };
 
     fetchImages();
-  }, [page, images, condition]);
+  }, [page, images]);
 
   const changePage = (newPage: number) => {
     setPage(newPage);
