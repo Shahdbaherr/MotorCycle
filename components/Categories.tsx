@@ -23,10 +23,6 @@ const Categories = ({ home }: categoriesProps) => {
     { src: "https://ik.imagekit.io/xcyd6uv91/image(1).png", alt: "bike1" },
     { src: "https://ik.imagekit.io/xcyd6uv91/image(2).png", alt: "bike2" },
     { src: "https://ik.imagekit.io/xcyd6uv91/image(3).png", alt: "bike3" },
-    {
-      src: "https://ik.imagekit.io/xcyd6uv91/bike4.jpg",
-      alt: "bike",
-    },
   ];
 
   useEffect(() => {

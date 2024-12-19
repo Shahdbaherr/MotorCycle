@@ -70,7 +70,7 @@ const HeroSection = () => {
                 </div>
               </div>
               <h2 className="text-primary text-sm md:text-lg lg:text-xl mb-2">
-                Sa3dawy Garage
+                Maator Garage
               </h2>
               <p className="text-white text-xs md:text-sm lg:text-base">
                 Motorcycle <span className="text-primary">•</span> Riding gear
@@ -80,7 +80,6 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-
         {/* Right Image Section */}
         <div className=" relative  w-full md:w-1/2 h-[calc(100vh-130px)]  ">
           <Image

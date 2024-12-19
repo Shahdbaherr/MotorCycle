@@ -103,7 +103,10 @@ const NavBar = ({ className, id }: NavProps) => {
     <>
       <div
         className={`w-screen min-h-[16vh] bg-[#0E0B0B] ${
-          pathname === "/" || pathname === "/videos" || pathname === "/shooting"
+          pathname === "/" ||
+          pathname === "/videos" ||
+          pathname === "/shooting" ||
+          pathname === "/motorcycles"
             ? "hidden"
             : ""
         }`}

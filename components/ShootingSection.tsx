@@ -12,15 +12,17 @@ interface ImageData {
   };
 }
 
-const Shooting = () => {
+const ShootingSection = () => {
   const [images, setImages] = useState<{ [key: number]: string[] }>({});
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const { theme } = useTheme();
 
   useEffect(() => {
     const fetchImages = async () => {
       if (images[page]) return;
 
+      setIsLoading(true);
       try {
         const response = await fetch(
           `https://dashboard.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls&page=${page}`
@@ -31,6 +33,8 @@ const Shooting = () => {
         setImages((prev) => ({ ...prev, [page]: allImages }));
       } catch (error) {
         console.error("Error fetching images:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -43,9 +47,7 @@ const Shooting = () => {
 
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
-  const buttonBackground = theme === "light" ? "#000000" : "#FFFFFF";
-  const buttonTextColor = theme === "light" ? "#FFFFFF" : "#000000";
-  const buttonBorderColor = theme === "light" ? "#000000" : "#FFFFFF";
+
   const imageSource =
     theme === "light" ? "/shootingLight.png" : "/Shooting.png";
 
@@ -58,9 +60,16 @@ const Shooting = () => {
         <ImageCard imgSrc={imageSource} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-        {!images[page] || images[page].length === 0 ? (
-          <div className="text-center text-xl">No images available.</div>
-        ) : (
+        {isLoading ? (
+          Array(6)
+            .fill(0)
+            .map((_, index) => (
+              <div
+                key={index}
+                className="bg-gray-200 animate-pulse h-48 w-full rounded-md"
+              ></div>
+            ))
+        ) : images[page] && images[page].length > 0 ? (
           images[page].map((imageUrl, index) => (
             <div key={index} className="relative w-full h-[400px]">
               <Image
@@ -71,6 +80,8 @@ const Shooting = () => {
               />
             </div>
           ))
+        ) : (
+          <div className="text-center text-xl">No images available.</div>
         )}
       </div>
 
@@ -147,4 +158,4 @@ const Shooting = () => {
   );
 };
 
-export default Shooting;
+export default ShootingSection;

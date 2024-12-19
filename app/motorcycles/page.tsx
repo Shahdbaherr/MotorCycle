@@ -1,15 +1,15 @@
 import { Metadata } from "next";
 import ShootingBanner from "@/components/ShootingBanner";
-import ShootingSection from "@/components/ShootingSection";
+import MotorcyclesSection from "@/components/MotorcycleSection";
 export const metadata: Metadata = {
-  title: "Shooting",
+  title: "Motorcycles",
   description: "Your go to source for all motorcycles.",
 };
-export default function shooting() {
+export default function motorcycles() {
   return (
     <>
       <ShootingBanner />
-      <ShootingSection />
+      <MotorcyclesSection />
     </>
   );
 }

@@ -18,13 +18,6 @@ const CategoriesSection = () => {
     { src: "https://ik.imagekit.io/xcyd6uv91/image(1).png", alt: "bike1" },
     { src: "https://ik.imagekit.io/xcyd6uv91/image(2).png", alt: "bike2" },
     { src: "https://ik.imagekit.io/xcyd6uv91/image(3).png", alt: "bike3" },
-    { src: "https://ik.imagekit.io/xcyd6uv91/image(4).png", alt: "bike4" },
-    { src: "https://ik.imagekit.io/xcyd6uv91/image.png", alt: "bike5" },
-    { src: "https://ik.imagekit.io/xcyd6uv91/image(5).png", alt: "bike6" },
-    { src: "https://ik.imagekit.io/xcyd6uv91/image.png", alt: "bike7" },
-    { src: "https://ik.imagekit.io/xcyd6uv91/image(5).png", alt: "bike8" },
-    { src: "https://ik.imagekit.io/xcyd6uv91/image(7).png", alt: "bike9" },
-    { src: "https://ik.imagekit.io/xcyd6uv91/image(4).png", alt: "bike10" },
   ];
 
   useEffect(() => {
@@ -84,10 +77,22 @@ const CategoriesSection = () => {
       style={{ backgroundColor, color: textColor }}
     >
       {loading ? (
-        <p className="text-center text-xl mt-10">Loading categories...</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {Array(3)
+            .fill(0)
+            .map((_, index) => (
+              <div
+                key={index}
+                className="bg-gray-200 animate-pulse h-48 w-full rounded-md"
+              ></div>
+            ))}
+          <p className="text-center text-xl col-span-full">
+            Loading categories...
+          </p>
+        </div>
       ) : (
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-5 mt-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-5 mt-[16vh]">
             {displayedCategories.length === 0 ? (
               <div className="text-center text-xl">
                 No categories available.
@@ -96,10 +101,10 @@ const CategoriesSection = () => {
               displayedCategories.map((category, index) => (
                 <div
                   key={index}
-                  className="relative w-full h-[300px] rounded-lg overflow-hidden"
+                  className="relative w-full h-[521px] rounded-lg overflow-hidden"
                 >
                   <Image
-                    src={images[startIndex + index]?.src}
+                    src={images[startIndex + index]?.src || "/default.jpg"}
                     alt={category.label}
                     layout="fill"
                     objectFit="cover"
@@ -107,20 +112,10 @@ const CategoriesSection = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
                   <div className="absolute inset-x-0 bottom-4 text-center z-20 text-white">
-                    <h3
-                      className="text-3xl font-semibold"
-                      style={{ color: "white" }}
-                    >
-                      {category.label}
-                    </h3>
+                    <h3 className="text-3xl font-semibold">{category.label}</h3>
                     <a
                       href="#"
-                      className="text-md mt-2 underline-offset-2 hover:underline"
-                      style={{
-                        textDecorationColor: "white",
-                        textDecorationThickness: ".8px",
-                        color: "white",
-                      }}
+                      className="text-md  underline-offset-2 hover:underline "
                     >
                       Learn more
                     </a>
@@ -133,7 +128,7 @@ const CategoriesSection = () => {
           <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
             <button
               onClick={() => changePage(page - 1)}
-              disabled={page === 1}
+              aria-disabled={page === 1}
               className={`flex items-center justify-center w-10 h-10 rounded-full ${
                 page === 1
                   ? "opacity-50 cursor-not-allowed bg-gray-500"
@@ -171,7 +166,7 @@ const CategoriesSection = () => {
             })}
             <button
               onClick={() => changePage(page + 1)}
-              disabled={page === totalPages}
+              aria-disabled={page === totalPages}
               className={`flex items-center justify-center w-10 h-10 rounded-full ${
                 page === totalPages
                   ? "opacity-50 cursor-not-allowed bg-gray-500"
