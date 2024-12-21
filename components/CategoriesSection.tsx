@@ -101,7 +101,7 @@ const CategoriesSection = () => {
               displayedCategories.map((category, index) => (
                 <div
                   key={index}
-                  className="relative w-full h-[521px] rounded-lg overflow-hidden"
+                  className="relative w-full h-[521px] rounded-lg overflow-hidden "
                 >
                   <Image
                     src={images[startIndex + index]?.src || "/default.jpg"}
@@ -112,7 +112,9 @@ const CategoriesSection = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
                   <div className="absolute inset-x-0 bottom-4 text-center z-20 text-white">
-                    <h3 className="text-3xl font-semibold">{category.label}</h3>
+                    <h3 className="text-3xl !text-white font-semibold">
+                      {category.label}
+                    </h3>
                     <a
                       href={
                         category.label === "Motorcycles"
