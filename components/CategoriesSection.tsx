@@ -78,7 +78,10 @@ const CategoriesSection = () => {
     >
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array(3)
+          <p className="text-center text-xl col-span-full">
+            Loading categories...
+          </p>
+          {Array(6)
             .fill(0)
             .map((_, index) => (
               <div
@@ -86,9 +89,6 @@ const CategoriesSection = () => {
                 className="bg-gray-200 animate-pulse h-48 w-full rounded-md"
               ></div>
             ))}
-          <p className="text-center text-xl col-span-full">
-            Loading categories...
-          </p>
         </div>
       ) : (
         <div>
@@ -114,8 +114,21 @@ const CategoriesSection = () => {
                   <div className="absolute inset-x-0 bottom-4 text-center z-20 text-white">
                     <h3 className="text-3xl font-semibold">{category.label}</h3>
                     <a
-                      href="#"
-                      className="text-md  underline-offset-2 hover:underline "
+                      href={
+                        category.label === "Motorcycles"
+                          ? "/motorcycles"
+                          : category.label === "Scooters"
+                          ? "/scooter"
+                          : category.label === "Accessories"
+                          ? "/accessories"
+                          : "#"
+                      }
+                      className="text-md mt-2 underline-offset-2 hover:underline"
+                      style={{
+                        textDecorationColor: "white",
+                        textDecorationThickness: ".8px",
+                        color: "white",
+                      }}
                     >
                       Learn more
                     </a>

@@ -110,7 +110,15 @@ const Categories = ({ home }: categoriesProps) => {
                       {category.label}
                     </h3>
                     <a
-                      href="#"
+                      href={
+                        category.label === "Motorcycles"
+                          ? "/motorcycles"
+                          : category.label === "Scooters"
+                          ? "/scooter"
+                          : category.label === "Accessories"
+                          ? "/accessories"
+                          : "#"
+                      }
                       className="text-md mt-2 underline-offset-2 hover:underline"
                       style={{
                         textDecorationColor: "white",

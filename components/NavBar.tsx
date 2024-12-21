@@ -78,23 +78,23 @@ const NavBar = ({ className, id }: NavProps) => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((current) => !current);
   };
-
   const navLinks: SubLink[] = [
     { label: "Home", href: "/" },
     {
-      label: "Motorcycle",
+      label: "Categories",
       nestedSubmenu: motorcycleCategories.map((category) => ({
         label: category.label,
-        nestedSubmenu: category.items.map((item) => ({
-          label: item.type,
-          href: `/${category.label}/${item.type}`,
-        })),
+        href:
+          category.label === "Motorcycles"
+            ? "/motorcycles"
+            : category.label === "Scooters"
+            ? "/scooter"
+            : category.label === "Accessories"
+            ? "/accessories"
+            : "/",
       })),
     },
-    {
-      label: "Videos",
-      href: "/videos",
-    },
+    { label: "Videos", href: "/videos" },
     { label: "Shooting", href: "/shooting" },
     { label: "Contact Us", href: "/contact" },
   ];
@@ -103,10 +103,14 @@ const NavBar = ({ className, id }: NavProps) => {
     <>
       <div
         className={`w-screen min-h-[16vh] bg-[#0E0B0B] ${
-          pathname === "/" ||
-          pathname === "/videos" ||
-          pathname === "/shooting" ||
-          pathname === "/motorcycles"
+          [
+            "/",
+            "/videos",
+            "/shooting",
+            "/motorcycles",
+            "/scooter",
+            "/accessories",
+          ].includes(pathname)
             ? "hidden"
             : ""
         }`}
@@ -120,7 +124,7 @@ const NavBar = ({ className, id }: NavProps) => {
         id={id}
       >
         {/* Desktop Menu */}
-        <div className="hidden  md:flex justify-between items-center px-6 md:px-20">
+        <div className="hidden md:flex justify-between items-center px-6 md:px-20">
           <div className="flex items-center">
             <Link href="/">
               <Image
@@ -159,42 +163,12 @@ const NavBar = ({ className, id }: NavProps) => {
                       <div className="absolute bg-white text-black rounded shadow-md mt-2">
                         {link.nestedSubmenu.map((sub, subIndex) => (
                           <div key={subIndex} className="relative">
-                            <button
-                              onClick={() => toggleNestedDropdown(sub.label)}
-                              className="px-4 py-2 hover:text-primary flex justify-between items-center w-[10vw]"
+                            <Link
+                              href={sub.href || "#"}
+                              className="px-4 py-2 hover:text-primary flex justify-between items-center "
                             >
                               {sub.label}
-                              {sub.nestedSubmenu && (
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M9 5l7 7-7 7"
-                                  />
-                                </svg>
-                              )}
-                            </button>
-                            {nestedDropdownOpen === sub.label &&
-                              sub.nestedSubmenu && (
-                                <div className="absolute left-full top-0 mt-0 bg-white text-black rounded shadow-md w-full">
-                                  {sub.nestedSubmenu.map(
-                                    (nested, nestedIndex) => (
-                                      <Link
-                                        key={nestedIndex}
-                                        href={nested.href || "#"}
-                                        className="block px-4 py-2 hover:text-primary"
-                                      >
-                                        {nested.label}
-                                      </Link>
-                                    )
-                                  )}
-                                </div>
-                              )}
+                            </Link>
                           </div>
                         ))}
                       </div>
@@ -332,22 +306,6 @@ const NavBar = ({ className, id }: NavProps) => {
                                   />
                                 </svg>
                               </button>
-                              {nestedDropdownOpen === sub.label &&
-                                sub.nestedSubmenu && (
-                                  <div className="ml-4 mt-2">
-                                    {sub.nestedSubmenu.map(
-                                      (nested, nestedIndex) => (
-                                        <Link
-                                          key={nestedIndex}
-                                          href={nested.href || "#"}
-                                          className="block text-sm py-2 hover:text-primary"
-                                        >
-                                          {nested.label}
-                                        </Link>
-                                      )
-                                    )}
-                                  </div>
-                                )}
                             </>
                           ) : (
                             <Link

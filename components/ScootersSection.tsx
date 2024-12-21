@@ -4,25 +4,25 @@ import ImageCard from "./ImageCard";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
-interface Motorcycle {
+interface Scooter {
   id: number;
   src: string;
   title: string;
   price: string;
 }
 
-const MotorcyclesSection = () => {
+const ScootersSection = () => {
   const { theme } = useTheme();
-  const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
+  const [scooters, setScooters] = useState<Scooter[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const itemsPerPage = 8;
 
   useEffect(() => {
-    const fetchMotorcycles = async () => {
+    const fetchScooters = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/motors?acf_format=standard&_fields=acf"
+          "https://dashboard.maator.com/wp-json/wp/v2/scooters?acf_format=standard&_fields=acf"
         );
         const data = await response.json();
 
@@ -33,25 +33,24 @@ const MotorcyclesSection = () => {
           price: item.acf.price,
         }));
 
-        setMotorcycles(formattedData);
+        setScooters(formattedData);
       } catch (error) {
-        console.error("Failed to fetch motorcycles:", error);
+        console.error("Failed to fetch scooters:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMotorcycles();
+    fetchScooters();
   }, []);
 
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
   const cardShadow = theme === "light" ? "0px 4px 10px #DD253D40" : "none";
 
-  // Pagination logic
-  const totalPages = Math.ceil(motorcycles.length / itemsPerPage);
+  const totalPages = Math.ceil(scooters.length / itemsPerPage);
   const startIndex = (page - 1) * itemsPerPage;
-  const displayedMotorcycles = motorcycles.slice(
+  const displayedScooters = scooters.slice(
     startIndex,
     startIndex + itemsPerPage
   );
@@ -90,16 +89,16 @@ const MotorcyclesSection = () => {
                     </div>
                   </div>
                 ))
-            : displayedMotorcycles.map((bike) => (
+            : displayedScooters.map((scooter) => (
                 <div
-                  key={bike.id}
+                  key={scooter.id}
                   className="border rounded-lg overflow-hidden bg-[#F1F2F4]"
                   style={{ boxShadow: cardShadow }}
                 >
                   <div className="relative w-[calc(100%-2rem)] mx-auto h-[30vh] px-4">
                     <Image
-                      src={bike.src}
-                      alt={bike.title}
+                      src={scooter.src}
+                      alt={scooter.title}
                       layout="fill"
                       objectFit="cover"
                     />
@@ -107,10 +106,10 @@ const MotorcyclesSection = () => {
 
                   <div className="p-4">
                     <h3 className="text-md font-semibold text-black">
-                      {bike.title}
+                      {scooter.title}
                     </h3>
                     <p className="text-red-500 text-sm font-bold">
-                      {bike.price}
+                      {scooter.price}
                     </p>
                     <button className="mt-4 bg-primary text-white px-3 py-1 rounded">
                       Show Details
@@ -119,8 +118,6 @@ const MotorcyclesSection = () => {
                 </div>
               ))}
         </div>
-
-        {/* Pagination Controls */}
         <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
           <button
             onClick={() => changePage(page - 1)}
@@ -185,4 +182,4 @@ const MotorcyclesSection = () => {
   );
 };
 
-export default MotorcyclesSection;
+export default ScootersSection;
