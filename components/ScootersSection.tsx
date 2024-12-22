@@ -3,12 +3,19 @@ import { useEffect, useState } from "react";
 import ImageCard from "./ImageCard";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 
 interface Scooter {
   id: number;
   src: string;
   title: string;
   price: string;
+  displacement: string;
+  horsePower: string;
+  torque: string;
+  dryWeight: string;
+  seatHeight: string;
+  safety: string;
 }
 
 const ScootersSection = () => {
@@ -17,20 +24,27 @@ const ScootersSection = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const itemsPerPage = 8;
+  const router = useRouter();
 
   useEffect(() => {
     const fetchScooters = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/scooters?acf_format=standard&_fields=acf"
+          "https://dashboard.maator.com/wp-json/wp/v2/scooters?acf_format=standard&_fields=acf,id"
         );
         const data = await response.json();
 
-        const formattedData = data.map((item: any, index: number) => ({
-          id: index + 1,
+        const formattedData = data.map((item: any) => ({
+          id: item.id,
           src: item.acf.image,
           title: item.acf.name,
           price: item.acf.price,
+          displacement: item.acf.displacement,
+          horsePower: item.acf.horsepower,
+          torque: item.acf.torque,
+          dryWeight: item.acf.dryweight,
+          seatHeight: item.acf.seatheight,
+          safety: item.acf.safety,
         }));
 
         setScooters(formattedData);
@@ -111,7 +125,12 @@ const ScootersSection = () => {
                     <p className="text-red-500 text-sm font-bold">
                       {scooter.price}
                     </p>
-                    <button className="mt-4 bg-primary text-white px-3 py-1 rounded">
+                    <button
+                      onClick={() => {
+                        router.push(`/scooterDetails/${scooter.id}`);
+                      }}
+                      className="mt-4 bg-primary text-white px-3 py-1 rounded"
+                    >
                       Show Details
                     </button>
                   </div>
