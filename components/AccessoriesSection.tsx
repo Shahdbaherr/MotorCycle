@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ImageCard from "./ImageCard";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 interface Accessory {
   id: number;
@@ -22,12 +23,12 @@ const AccessoriesSection = () => {
     const fetchAccessories = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/accessories?acf_format=standard&_fields=acf"
+          "https://dashboard.maator.com/wp-json/wp/v2/accessories?acf_format=standard&_fields=acf,id"
         );
         const data = await response.json();
 
-        const formattedData = data.map((item: any, index: number) => ({
-          id: index + 1,
+        const formattedData = data.map((item: any) => ({
+          id: item.id, // Use the actual ID from the API
           src: item.acf.image,
           title: item.acf.name,
           price: item.acf.price,
@@ -111,9 +112,11 @@ const AccessoriesSection = () => {
                     <p className="text-red-500 text-sm font-bold">
                       {accessory.price}
                     </p>
-                    <button className="mt-4 bg-primary text-white px-3 py-1 rounded">
-                      Show Details
-                    </button>
+                    <Link href={`/accessoryDetails/${accessory.id}`}>
+                      <button className="mt-4 bg-primary text-white px-3 py-1 rounded">
+                        Show Details
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -171,7 +174,7 @@ const AccessoriesSection = () => {
             >
               <path
                 fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 001.414 0l4-4a1 1 0 000-1.414l-4-4a1 1 0 10-1.414 1.414L10.586 10l-3.293 3.293a1 1 0 000 1.414z"
+                d="M7.293 14.707a1 1 0 001.414 0l4-4a1 1 0 000-1.414l-4-4a1 1 0 10-1.414 1.414L10.586 10l-3.293 3.293a1 1 000 1.414z"
                 clipRule="evenodd"
               />
             </svg>

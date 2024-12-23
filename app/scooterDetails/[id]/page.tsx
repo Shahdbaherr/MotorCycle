@@ -78,8 +78,6 @@ const ScooterDetails = ({ params }: { params: { id: string } }) => {
         backgroundPosition: "center",
       }}
     >
-      <div className="hidden md:block w-full h-[12vh] bg-white z-10" />
-
       <div className="flex-grow flex flex-col items-center max-w-5xl mx-auto px-4 bg-transparent z-20">
         <div className="p-6 text-white w-full">
           <div className="flex flex-col justify-center items-center">
@@ -129,14 +127,13 @@ const ScooterDetails = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
 
-      <div className="flex justify-center py-6">
+      <div className="flex justify-center py-14">
         <Link href="/">
           <p className="bg-primary text-white font-bold py-2 px-6 rounded hover:bg-white hover:text-black transition">
             Back to Home
           </p>
         </Link>
       </div>
-      <div className="hidden md:block w-full h-[12vh] bg-white z-10" />
     </div>
   );
 };
