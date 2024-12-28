@@ -78,6 +78,7 @@ const NavBar = ({ className, id }: NavProps) => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((current) => !current);
   };
+
   const navLinks: SubLink[] = [
     { label: "Home", href: "/" },
     {
@@ -203,18 +204,19 @@ const NavBar = ({ className, id }: NavProps) => {
 
         {/* Mobile Menu */}
 
-        <button
-          className="md:hidden flex items-center text-white px-6"
-          onClick={toggleMobileMenu}
-        >
-          <Image
-            src="/logo.png"
-            alt="logo"
-            width={40}
-            height={20}
-            className="block md:hidden"
-          />
+        <button className="md:hidden flex justify-between items-center text-white px-6 w-full">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width={60}
+              height={30}
+              className="block md:hidden"
+            />
+          </Link>
+
           <svg
+            onClick={toggleMobileMenu}
             className="w-6 h-6 ml-2"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -257,7 +259,12 @@ const NavBar = ({ className, id }: NavProps) => {
                     onClick={() => toggleDropdown(link.label)}
                     className="flex justify-between w-full text-left items-center hover:text-primary"
                   >
-                    {link.label}
+                    <Link
+                      href={link.href || "#"}
+                      onClick={link.nestedSubmenu ? () => {} : toggleMobileMenu}
+                    >
+                      {link.label}
+                    </Link>
                     {link.nestedSubmenu && (
                       <svg
                         className={`w-5 h-5 transition-transform ${
@@ -310,6 +317,7 @@ const NavBar = ({ className, id }: NavProps) => {
                           ) : (
                             <Link
                               href={sub.href || "#"}
+                              onClick={toggleMobileMenu}
                               className="text-white text-xl py-2 block hover:text-primary"
                             >
                               {sub.label}

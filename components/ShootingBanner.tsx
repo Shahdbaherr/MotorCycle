@@ -1,9 +1,12 @@
+'use client'
 import Image from "next/image";
-
+import { usePathname } from "next/navigation";
 const ShootingBanner = () => {
+  const pathname = usePathname();
+
   return (
     <section
-      className="relative w-full text-white flex flex-col md:flex-row items-center pt-[130px] md:pt-[8vh] h-auto lg:h-[100vh]"
+      className="relative w-full text-white flex flex-col md:flex-row items-center pt-[60px] md:pt-[8vh] h-auto lg:h-[100vh]"
       style={{
         backgroundImage: "url('/Car.png')",
         backgroundSize: "cover",
@@ -11,20 +14,20 @@ const ShootingBanner = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="flex flex-col md:flex-row w-full items-end px-4 md:px-10">
-        <div className="flex flex-col w-full px-8">
-          <div>
+      <div className="flex flex-col md:flex-row w-full items-center px-4 md:px-10 pb-6 lg:pb-0">
+        <div className="flex flex-col w-full">
+          <div className="flex flex-col items-center lg:items-start">
             <a
               href="#"
               className="text-xl md:text-2xl font-bold underline hover:text-primary !text-white transition-colors"
             >
-              Online Store
+              {pathname.split('/')}
             </a>
             <h1 className="text-2xl pt-4 md:text-3xl lg:text-4xl font-extrabold my-4 text-white">
               All you need in one place
             </h1>
 
-            <div className="flex flex-wrap items-center space-x-4">
+            <div className="flex items-center space-x-4">
               <button className="px-6 md:px-8 lg:px-16 py-3 md:py-3 text-white rounded-full transition border border-white text-sm md:text-lg lg:text-3xl">
                 Shop
               </button>
@@ -47,9 +50,6 @@ const ShootingBanner = () => {
               </button>
             </div>
 
-            <p className="py-4 md:py-6 text-base md:text-lg lg:text-4xl">
-              EXPLORE OUR WORLD!
-            </p>
           </div>
         </div>
 
@@ -58,7 +58,7 @@ const ShootingBanner = () => {
           alt="Motorcycle"
           width={1000}
           height={600}
-          className="object-contain "
+          className="object-contain hidden lg:block"
         />
       </div>
     </section>

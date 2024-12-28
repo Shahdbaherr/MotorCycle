@@ -26,13 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn(" font-sans bg-cover bg-center bg-no-repeat")}>
+      <body className={cn(" font-sans bg-cover bg-center bg-no-repeat overflow-x-hidden")}>
         <Suspense>
           <ProgressBar />
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="dark"
             disableTransitionOnChange
           >
             <Nav />
