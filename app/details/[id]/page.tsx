@@ -2,6 +2,49 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
+const INPUT = "INPUT";
+const NEED = "NEED";
+const TEXTAREA = "TEXTAREA";
+
+const initalFields = [
+  {
+    label: "Your Need*",
+    component: NEED,
+    type: "text",
+    name: "your-need",
+    id: "need",
+    validation_error: false,
+    validation_message: "",
+  },
+  {
+    label: "Your Name*",
+    component: INPUT,
+    type: "text",
+    name: "your-name",
+    id: "full_name",
+    validation_error: false,
+    validation_message: "",
+  },
+  {
+    label: "Your Phone*",
+    component: INPUT,
+    type: "number",
+    name: "your-phone",
+    id: "phone",
+    validation_error: false,
+    validation_message: "",
+  },
+  {
+    label: "Your Message*",
+    component: TEXTAREA,
+    type: "text",
+    name: "your-message",
+    id: "message",
+    validation_error: false,
+    validation_message: "",
+  },
+];
 
 interface MotorcycleDetails {
   title: string;
@@ -18,6 +61,57 @@ interface MotorcycleDetails {
 const Details = ({ params }: { params: { id: string } }) => {
   const [motorcycle, setMotorcycle] = useState<MotorcycleDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  
+    const [fields, setFields] = useState<any>(initalFields);
+      const [message, setMessage] = useState<any>(null);
+    
+      const handleSubmit = async (event: any) => {
+        event.preventDefault();
+    
+        setFields(
+          fields.map((field: { name: any }) => ({
+            ...field,
+            validation_error: false,
+            validation_message: "",
+          }))
+        );
+    
+        const formData = new FormData(event.target);
+        formData.append("your-need", motorcycle ? motorcycle.title : '');
+        formData.append("_wpcf7_unit_tag", "aeda010");
+    
+        const reqOptions = {
+          method: "POST",
+          body: formData,
+        };
+    
+        const req = await fetch(
+          `https://dashboard.maator.com/wp-json/contact-form-7/v1/contact-forms/156/feedback`,
+          reqOptions
+        );
+        const res: any = await req.json();
+    
+        if (!res) return alert("an expected error occured");
+    
+        if (res.invalid_fields && res.invalid_fields.length > 0) {
+          return setFields(
+            fields.map((field: { name: any }) => {
+              const error = res.invalid_fields.find(
+                (x: { field: any }) => x.field === field.name
+              );
+    
+              return {
+                ...field,
+                validation_error: error ? true : false,
+                validation_message: error ? error.message : "",
+              };
+            })
+          );
+        }
+    
+        setMessage(res.message);
+      };
 
   useEffect(() => {
     const fetchMotorcycleDetails = async () => {
@@ -49,8 +143,19 @@ const Details = ({ params }: { params: { id: string } }) => {
       }
     };
 
-    fetchMotorcycleDetails();
-  }, [params.id]);
+    if(!message){
+      fetchMotorcycleDetails();
+    }
+
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(""); 
+        router.push('/accessories');
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup timeout if the component is unmounted or updated
+    }
+  }, [params.id, message, router]);
 
   if (loading) {
     return (
@@ -126,6 +231,82 @@ const Details = ({ params }: { params: { id: string } }) => {
               </ul>
             </div>
           </div>
+
+          {/* Form Section */}
+          <form className="space-y-6 bg-white text-gray-700 p-6 rounded-md" onSubmit={handleSubmit}>
+            Are you interested in this product?
+            {fields.map((field: any) => (
+              <div key={field.id} className="mb-6">
+                {field.component !== NEED && <label
+                  htmlFor={field.id}
+                  className="block text-lg font-medium text-gray-700 mb-2"
+                >
+                  {field.label}
+                </label>}
+                {field.component === NEED && (
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    disabled={true}
+                    value={motorcycle.title}
+                    id={field.id}
+                    className="w-full hidden p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#DD5471] focus:outline-none placeholder-gray-500"
+                  />
+                )}
+                {field.component === INPUT && (
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    min={0}
+                    placeholder={field.name
+                      .split("-")
+                      .map(
+                        (word: string) =>
+                          word.charAt(0).toUpperCase() +
+                          word.slice(1).toLowerCase()
+                      )
+                      .join(" ")}
+                    id={field.id}
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#DD5471] focus:outline-none placeholder-gray-500"
+                  />
+                )}
+                {field.component === TEXTAREA && (
+                  <textarea
+                    name={field.name}
+                    id={field.id}
+                    placeholder={field.name
+                      .split("-")
+                      .map(
+                        (word: string) =>
+                          word.charAt(0).toUpperCase() +
+                          word.slice(1).toLowerCase()
+                      )
+                      .join(" ")}
+                    rows={4}
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#DD5471] focus:outline-none placeholder-gray-500"
+                  ></textarea>
+                )}
+                {field.validation_error && (
+                  <div className="text-sm text-red-600 mt-1">
+                    {field.validation_message}
+                  </div>
+                )}
+              </div>
+            ))}
+  
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-[#DD5471] text-white py-3 font-bold rounded-lg shadow-md hover:opacity-90 transition duration-300"
+            >
+              SEND
+            </button>
+            {message && (
+              <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-lg shadow-sm">
+                {message}
+              </div>
+            )}
+          </form>
         </div>
       </div>
 
