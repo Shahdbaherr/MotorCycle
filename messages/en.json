@@ -12,7 +12,9 @@
     "blog": "Blog",
     "location": "Location",
     "learnMore": "Learn more",
-    "ourLocation": "Maadi as Sarayat Al Gharbeyah, Cairo Governorate 11728"
+    "ourLocation": "Maadi as Sarayat Al Gharbeyah, Cairo Governorate 11728",
+    "ar": "ARABIC",
+    "en": "ENGLISH"
   },
   "Videos": {
     "title1": "Bring your style",

@@ -6,6 +6,7 @@ import cn from "classnames";
 import { usePathname } from "next/navigation";
 import LocaleSwitcher from "./LocaleSwitcher";
 import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
 
 type NavProps = {
   className?: string;
@@ -39,6 +40,15 @@ const NavBar = ({ className, id }: NavProps) => {
     },
   ]);
   const pathname = usePathname();
+
+  const router = useRouter();
+  const currentLocale = useLocale();
+
+  const switchLocale = (targetLocale: string) => {
+    const path = window.location.pathname;
+    const newPath = path.replace(`/${currentLocale}`, `/${targetLocale}`);
+    router.push(newPath);
+  };
 
   const toggleDropdown = (menu: string) => {
     setOpenDropdown((current) => (current === menu ? null : menu));
@@ -389,6 +399,21 @@ const NavBar = ({ className, id }: NavProps) => {
                   )}
                 </div>
               ))}
+              <div className="flex justify-center gap-4 mt-6">
+                {["ar", "en"].map((loc) => (
+                  <button
+                    key={loc}
+                    onClick={() => switchLocale(loc)}
+                    className={`px-4 py-2 rounded font-semibold border ${
+                      currentLocale === loc
+                        ? "bg-white text-black"
+                        : "text-white border-gray-400"
+                    }`}
+                  >
+                    {t(loc)}
+                  </button>
+                ))}
+              </div>
             </nav>
           </div>
         )}
