@@ -11,7 +11,8 @@
     "driveschool": "مدرسة السواقة",
     "blog": "المدونة",
     "location": "موقعنا",
-    "learnMore": "أعرف اكتر"
+    "learnMore": "أعرف اكتر",
+    "ourLocation": "36 شارع مكة، زهراء المعادي – جنب مسجد آل إبراهيم"
   },
   "Hero": {
     "onlineStore": "المتجر الإلكتروني",
@@ -40,7 +41,10 @@
     "message": "رسالتك*",
     "send": "إرسال",
     "phoneLabel": "الهاتف",
-    "required": "الحقل مطلوب"
+    "required": "الحقل مطلوب",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "submitButton": "إرسال"
   },
   "DriveSchool": {
     "title": "سجل في",

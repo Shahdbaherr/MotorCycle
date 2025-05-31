@@ -11,7 +11,8 @@
     "driveschool": "School",
     "blog": "Blog",
     "location": "Location",
-    "learnMore": "Learn more"
+    "learnMore": "Learn more",
+    "ourLocation": "Maadi as Sarayat Al Gharbeyah, Cairo Governorate 11728"
   },
   "Videos": {
     "title1": "Bring your style",
@@ -40,7 +41,10 @@
     "message": "Your Message*",
     "send": "SEND",
     "phoneLabel": "PHONE",
-    "required": "is required"
+    "required": "is required",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "submitButton": "Submit"
   },
   "DriveSchool": {
     "title": "Register for",

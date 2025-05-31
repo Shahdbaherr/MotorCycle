@@ -40,7 +40,7 @@ const Footer = () => {
         title: t("location"),
         items: [
           {
-            text: "Maadi as Sarayat Al Gharbeyah, Cairo Governorate 11728",
+            text: t("ourLocation"),
           },
         ],
       },

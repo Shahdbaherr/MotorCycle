@@ -19,7 +19,7 @@ export async function generateMetadata({
   const isArabic = currentLocale === "ar";
 
   const title = isArabic
-    ? "ماتور جراچ - ورشة وصيانة الدراجات النارية"
+    ? "ماتور جراج – معرض شامل للموتوسيكلات بيع – شراء – صيانة – إكسسوارات"
     : "Mator Garage - Motorcycle Workshop & Maintenance";
   const description = isArabic
     ? "ماتور جراچ هو مركز متخصص في صيانة وبيع الدراجات النارية في المنطقة."

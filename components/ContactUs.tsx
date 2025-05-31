@@ -2,12 +2,14 @@
 import Image from "next/image";
 import ImageCard from "./ImageCard";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 const Contact = () => {
   const { theme } = useTheme();
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
   const imageSource =
     theme === "light" ? "/contactLight.png" : "/Contact Us.png";
+    const t = useTranslations("Contact");
   return (
     <div
       className="text-white min-h-screen overflow-hidden"
@@ -30,9 +32,7 @@ const Contact = () => {
         <div className="relative w-full md:w-2/5 h-[60vh] md:h-[65vh] bg-white flex flex-col items-center rounded-none md:rounded-tl-3xl md:rounded-bl-3xl justify-center md:p-12">
           <div className="max-w-md w-full flex flex-col ">
             <p className="text-black text-2xl mb-6 text-center md:text-left">
-              Our team is always available to assist you.
-              <br />
-              Contact us whenever you want!
+              {t("description")}
             </p>
             <form className="space-y-6">
               <div className="relative">
@@ -56,7 +56,7 @@ const Contact = () => {
                     className="text-md"
                     style={{ color: "#B00E0A" }}
                   >
-                    Email
+                    {t("emailLabel")}
                   </label>
                 </div>
                 <div className="mt-1 relative rounded-md">
@@ -64,7 +64,7 @@ const Contact = () => {
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Enter your email"
+                    placeholder={t("emailPlaceholder")}
                     required
                     className="pl-2 py-2 px-3 w-full border border-primary rounded-md focus:border-primary"
                     style={{
@@ -79,7 +79,7 @@ const Contact = () => {
                   className="w-full mt-[1vh] bg-primary text-white py-2 rounded-md"
                   style={{ backgroundColor: "#B00E0A" }}
                 >
-                  Submit
+                  {t("submitButton")}
                 </button>
               </div>
             </form>
