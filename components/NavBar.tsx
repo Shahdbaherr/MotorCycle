@@ -107,6 +107,7 @@ const NavBar = ({ className, id }: NavProps) => {
     if (hiddenRoutes.includes(path)) return true;
     // Check if path starts with "/.../"
     if (path.startsWith("/motocycle/")) return true;
+    if (path.startsWith("/scooter/")) return true;
     return false;
   }
 
