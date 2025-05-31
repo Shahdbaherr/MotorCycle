@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import cn from "classnames";
 import { usePathname } from "next/navigation";
+import LocaleSwitcher from "./LocaleSwitcher";
+import { useTranslations, useLocale } from "next-intl";
 
 type NavProps = {
   className?: string;
@@ -18,7 +20,7 @@ type SubLink = {
 
 type Category = {
   label: string;
-  items: { name: string; type: string }[];
+  items?: { name: string; type: string }[];
 };
 
 const NavBar = ({ className, id }: NavProps) => {
@@ -27,42 +29,18 @@ const NavBar = ({ className, id }: NavProps) => {
     null
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const t = useTranslations("NavBar");
   const [motorcycleCategories, setMotorcycleCategories] = useState<Category[]>(
-    []
+    [
+    {
+      label: "Motorcycles",
+    },
+    {
+      label: "Scooters",
+    },
+  ]
   );
   const pathname = usePathname();
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/motorcycles?acf_format=standard"
-        );
-        const data = await response.json();
-        const categoryMap: Record<string, any[]> = {};
-        data.forEach((item: any) => {
-          if (item.acf?.category?.name && item.acf?.type) {
-            if (!categoryMap[item.acf.category.name]) {
-              categoryMap[item.acf.category.name] = [];
-            }
-            categoryMap[item.acf.category.name].push({
-              name: item.acf.category.name,
-              type: item.acf.type,
-            });
-          }
-        });
-        const categories = Object.keys(categoryMap).map((categoryName) => ({
-          label: categoryName,
-          items: categoryMap[categoryName],
-        }));
-
-        setMotorcycleCategories(categories);
-      } catch (error) {
-        console.error("Error fetching motorcycle categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   const toggleDropdown = (menu: string) => {
     setOpenDropdown((current) => (current === menu ? null : menu));
@@ -79,41 +57,68 @@ const NavBar = ({ className, id }: NavProps) => {
     setIsMobileMenuOpen((current) => !current);
   };
 
+  
+  const locale = useLocale();
+  const withLocale = (path: string) => `/${locale}${path}`;
+
   const navLinks: SubLink[] = [
-    { label: "Home", href: "/" },
+    { label: t("home"), href: withLocale("/") },
     {
-      label: "Categories",
+      label: t("categories"),
       nestedSubmenu: motorcycleCategories.map((category) => ({
-        label: category.label,
+        label: t(
+          category.label === "Motorcycles"
+            ? "motorcycles"
+            : category.label === "Scooters"
+            ? "scooters"
+            : category.label === "Accessories"
+            ? "accessories"
+            : "home"
+        ),
         href:
           category.label === "Motorcycles"
-            ? "/motorcycles"
+            ? withLocale("/motorcycles")
             : category.label === "Scooters"
-            ? "/scooter"
+            ? withLocale("/scooters")
             : category.label === "Accessories"
-            ? "/accessories"
-            : "/",
+            ? withLocale("/accessories")
+            : withLocale("/"),
       })),
     },
-    { label: "Videos", href: "/videos" },
-    { label: "Shooting", href: "/shooting" },
-    { label: "Contact Us", href: "/contact" },
+    { label: t("driveschool"), href: withLocale("/driveschool") },
+    { label: t("blog"), href: withLocale("/posts") },
+    { label: t("videos"), href: withLocale("/videos") },
+    { label: t("shooting"), href: withLocale("/shooting") },
+    { label: t("contact"), href: withLocale("/contact") },
   ];
+
+  const localePrefix = pathname.split("/")[1]; // "en", "ar", etc.
+  const basePath = pathname.replace(`/${localePrefix}`, ""); // e.g. "/videos"
+
+  const hiddenRoutes = [
+    "",
+    "/videos",
+    "/shooting",
+    "/motorcycles",
+    "/scooters",
+    "/accessories",
+    "/driveschool"
+  ];
+
+  function isRouteHidden(path: any) {
+    if (hiddenRoutes.includes(path)) return true;
+    // Check if path starts with "/.../"
+    if (path.startsWith("/motocycle/")) return true;
+    return false;
+  }
+
+  const shouldHide = isRouteHidden(basePath);
 
   return (
     <>
       <div
-        className={`w-screen min-h-[16vh] bg-[#0E0B0B] ${
-          [
-            "/",
-            "/videos",
-            "/shooting",
-            "/motorcycles",
-            "/scooter",
-            "/accessories",
-          ].includes(pathname)
-            ? "hidden"
-            : ""
+        className={`w-screen min-h-[7vh] bg-transparent ${
+          shouldHide ? "hidden" : ""
         }`}
       ></div>
 
@@ -137,7 +142,7 @@ const NavBar = ({ className, id }: NavProps) => {
               />
             </Link>
           </div>
-          <div className="flex space-x-8 text-lg">
+          <div className="flex gap-8 text-lg font-semibold">
             {navLinks.map((link, index) => (
               <div key={index} className="relative hover:text-primary">
                 {link.nestedSubmenu ? (
@@ -176,12 +181,13 @@ const NavBar = ({ className, id }: NavProps) => {
                     )}
                   </>
                 ) : (
-                  <Link href={link.href || "#"}>{link.label}</Link>
+                  <Link className="font-semibold" href={link.href || "#"}>{link.label}</Link>
                 )}
               </div>
             ))}
           </div>
-          <div className="hidden md:flex items-center relative w-[289px]">
+          <LocaleSwitcher />
+          {/* <div className="hidden md:flex items-center relative w-[289px]">
             <input
               type="text"
               placeholder="Search for motorcycle"
@@ -199,7 +205,7 @@ const NavBar = ({ className, id }: NavProps) => {
                 <line x1="16" y1="16" x2="20" y2="20" strokeWidth="2"></line>
               </svg>
             </button>
-          </div>
+          </div> */}
         </div>
 
         {/* Mobile Menu */}

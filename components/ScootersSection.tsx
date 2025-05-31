@@ -4,9 +4,11 @@ import ImageCard from "./ImageCard";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Scooter {
   id: number;
+  slug: string;
   src: string;
   title: string;
   price: string;
@@ -30,12 +32,13 @@ const ScootersSection = () => {
     const fetchScooters = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/scooters?acf_format=standard&_fields=acf,id"
+          "https://store.maator.com/wp-json/wp/v2/scooters?acf_format=standard&_fields=acf,id,slug"
         );
         const data = await response.json();
 
         const formattedData = data.map((item: any) => ({
           id: item.id,
+          slug: item.slug,
           src: item.acf.image,
           title: item.acf.name,
           price: item.acf.price,
@@ -57,6 +60,9 @@ const ScootersSection = () => {
 
     fetchScooters();
   }, []);
+
+  const t = useTranslations("motor");
+  const locale = useLocale();
 
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
@@ -85,7 +91,7 @@ const ScootersSection = () => {
         />
       </div>
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {loading
             ? Array(itemsPerPage)
                 .fill(0)
@@ -109,7 +115,7 @@ const ScootersSection = () => {
                   className="border rounded-lg overflow-hidden bg-[#F1F2F4]"
                   style={{ boxShadow: cardShadow }}
                 >
-                  <div className="relative w-[calc(100%-2rem)] mx-auto h-[30vh] px-4">
+                  <div className="relative w-[calc(100%-2rem)] rounded-lg mx-auto h-[55vh] px-4">
                     <Image
                       src={scooter.src}
                       alt={scooter.title}
@@ -127,17 +133,17 @@ const ScootersSection = () => {
                     </p>
                     <button
                       onClick={() => {
-                        router.push(`/scooterDetails/${scooter.id}`);
+                        router.push(`/${locale}/scooter/${scooter.slug}`);
                       }}
                       className="mt-4 bg-primary text-white px-3 py-1 rounded"
                     >
-                      Show Details
+                      {t("showDetails")}
                     </button>
                   </div>
                 </div>
               ))}
         </div>
-        <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
+        <div className="flex items-center justify-center mt-8 mb-4 space-x-4" dir="ltr">
           <button
             onClick={() => changePage(page - 1)}
             disabled={page === 1}

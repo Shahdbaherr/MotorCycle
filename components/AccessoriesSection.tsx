@@ -23,7 +23,7 @@ const AccessoriesSection = () => {
     const fetchAccessories = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/accessories?acf_format=standard&_fields=acf,id"
+          "https://store.maator.com/wp-json/wp/v2/accessories?acf_format=standard&_fields=acf,id"
         );
         const data = await response.json();
 

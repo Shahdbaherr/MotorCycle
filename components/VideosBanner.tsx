@@ -1,6 +1,8 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 const VideosBanner = () => {
+    const t = useTranslations("Videos");
   return (
     <section
       className="relative w-full text-white flex flex-col items-start justify-center min-h-screen"
@@ -21,7 +23,7 @@ const VideosBanner = () => {
             fontWeight: "bold",
           }}
         >
-          Bring your style
+          {t("title1")}
         </h1>
         <h2
           className="text-base sm:text-lg md:text-3xl lg:text-6xl font-normal leading-normal sm:leading-[1.5] md:mt-4 text-white"
@@ -29,7 +31,7 @@ const VideosBanner = () => {
             maxWidth: "30vw",
           }}
         >
-          Make your dream come true
+          {t("title2")}
         </h2>
       </div>
     </section>

@@ -10,9 +10,10 @@ import {
   getCategoryById,
 } from "@/lib/wordpress";
 
-export default async function PostCard({ post }: { post: Post }) {
+export default async function PostCard({ post , locale  }: { post: Post, locale: string }) {
   const media = await getFeaturedMediaById(post.featured_media);
   const author = await getAuthorById(post.author);
+  const currentLocale = locale;
   const date = new Date(post.date).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
@@ -22,7 +23,7 @@ export default async function PostCard({ post }: { post: Post }) {
 
   return (
     <Link
-      href={`/posts/${post.slug}`}
+      href={`/${currentLocale}/posts/${post.slug}`}
       className={cn(
         "border p-4 bg-accent/30 rounded-lg group flex justify-between flex-col not-prose gap-8",
         "hover:bg-accent/75 transition-all"

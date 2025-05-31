@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import { useLocale, useTranslations } from "next-intl";
 
 interface ImageData {
   id: number;
@@ -19,12 +20,15 @@ type ShootingProps = {
 const Shooting = ({ condition }: ShootingProps) => {
   const [images, setImages] = useState<string[]>([]);
   const { theme } = useTheme();
+  const t = useTranslations("Hero");
+
+  const locale = useLocale();
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls"
+          "https://store.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls"
         );
         const data: ImageData[] = await response.json();
 
@@ -74,7 +78,7 @@ const Shooting = ({ condition }: ShootingProps) => {
       </div>
 
       <div className="flex justify-center items-center pb-10 mt-[10vh]">
-        <Link href="/shooting" passHref>
+        <Link href={`/${locale}/shooting`} passHref>
           <button
             className="inline-block px-6 py-2 uppercase tracking-wide rounded-lg transition duration-200 text-xl "
             style={{
@@ -83,7 +87,7 @@ const Shooting = ({ condition }: ShootingProps) => {
               border: `1px solid ${buttonBorderColor}`,
             }}
           >
-            SHOW MORE
+            {t("showMore")}
           </button>
         </Link>
       </div>

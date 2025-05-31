@@ -1,101 +1,168 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 const INPUT = "INPUT";
 const TEXTAREA = "TEXTAREA";
-
-const initalFields = [
-  {
-    label: "Your Name*",
-    component: INPUT,
-    type: "text",
-    name: "your-name",
-    id: "full_name",
-    validation_error: false,
-    validation_message: "",
-  },
-  {
-    label: "Your Phone*",
-    component: INPUT,
-    type: "number",
-    name: "your-phone",
-    id: "phone",
-    validation_error: false,
-    validation_message: "",
-  },
-  {
-    label: "Your Message*",
-    component: TEXTAREA,
-    type: "text",
-    name: "your-message",
-    id: "message",
-    validation_error: false,
-    validation_message: "",
-  },
-];
 
 const ContactForm = () => {
   const { theme } = useTheme();
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
 
+  const t = useTranslations("Contact");
+
+  const initalFields = [
+    {
+      label: t("name"),
+      component: INPUT,
+      type: "text",
+      name: "your-name",
+      id: "full_name",
+      validation_error: false,
+      validation_message: "",
+    },
+    {
+      label: t("phone"),
+      component: INPUT,
+      type: "number",
+      name: "your-phone",
+      id: "phone",
+      validation_error: false,
+      validation_message: "",
+    },
+    {
+      label: t("message"),
+      component: TEXTAREA,
+      type: "text",
+      name: "your-message",
+      id: "message",
+      validation_error: false,
+      validation_message: "",
+    },
+  ];
+
   const [fields, setFields] = useState<any>(initalFields);
   const [message, setMessage] = useState<any>(null);
 
-  const handleSubmit = async (event: any) => {
+  const validateFields = () => {
+    let isValid = true;
+
+    const updatedFields = fields.map((field: any) => {
+      let validation_error = false;
+      let validation_message = "";
+
+      // Simple example validation: required fields must not be empty
+      if (!field.optional) {
+        const value =
+          (document.getElementById(field.id) as HTMLInputElement)?.value || "";
+        if (!value.trim()) {
+          validation_error = true;
+          validation_message = `${field.label} ${t("required")}`;
+          isValid = false;
+        }
+
+        // Add more validations based on field.type if needed
+        if (!validation_error && field.type === "email") {
+          // Basic email regex
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(value)) {
+            validation_error = true;
+            validation_message = `Please enter a valid email address`;
+            isValid = false;
+          }
+        }
+      }
+
+      return {
+        ...field,
+        validation_error,
+        validation_message,
+      };
+    });
+
+    setFields(updatedFields);
+
+    return isValid;
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    // Frontend validation
+    const isValid = validateFields();
+
+    if (!isValid) {
+      return; // stop submitting if validation fails
+    }
+
+    // Reset errors before sending
     setFields(
-      fields.map((field: { name: any }) => ({
+      fields.map((field: any) => ({
         ...field,
         validation_error: false,
         validation_message: "",
       }))
     );
 
-    const formData = new FormData(event.target);
-    formData.append("_wpcf7_unit_tag", "aadf1fe");
+    const formData = new FormData(event.target as HTMLFormElement);
+    formData.append("_wpcf7_unit_tag", "f7988a6");
 
     const reqOptions = {
       method: "POST",
       body: formData,
     };
 
-    const req = await fetch(
-      `https://dashboard.maator.com/wp-json/contact-form-7/v1/contact-forms/155/feedback`,
-      reqOptions
-    );
-    const res: any = await req.json();
-
-    if (!res) return alert("an expected error occured");
-
-    if (res.invalid_fields && res.invalid_fields.length > 0) {
-      return setFields(
-        fields.map((field: { name: any }) => {
-          const error = res.invalid_fields.find(
-            (x: { field: any }) => x.field === field.name
-          );
-
-          return {
-            ...field,
-            validation_error: error ? true : false,
-            validation_message: error ? error.message : "",
-          };
-        })
+    try {
+      const req = await fetch(
+        "https://store.maator.com/wp-json/contact-form-7/v1/contact-forms/2038/feedback",
+        reqOptions
       );
-    }
+      const res: any = await req.json();
 
-    setMessage(res.message);
+      if (!res) return alert("An unexpected error occurred");
+
+      if (res.invalid_fields && res.invalid_fields.length > 0) {
+        // Server-side validation errors
+        setFields(
+          fields.map((field: any) => {
+            const error = res.invalid_fields.find(
+              (x: { field: string }) => x.field === field.name
+            );
+
+            return {
+              ...field,
+              validation_error: !!error,
+              validation_message: error ? error.message : "",
+            };
+          })
+        );
+        return;
+      }
+
+      setMessage(res.message);
+    } catch (error) {
+      alert("Network or server error occurred.");
+    }
   };
 
-  // Clear the message after 5 seconds
+  // Clear the message and inputs
   useEffect(() => {
     if (message) {
+      // 1- Clear inputs by resetting values
+      setFields((prevFields: any) =>
+        prevFields.map((field: any) => ({
+          ...field,
+          value: "", // Clear value
+          validation_error: false,
+          validation_message: "",
+        }))
+      );
       const timer = setTimeout(() => {
-        setMessage(""); // Clear message
+        setMessage(""); // 2- Clear message
       }, 5000);
 
-      return () => clearTimeout(timer); // Cleanup timeout if the component is unmounted or updated
+      return () => clearTimeout(timer);
     }
   }, [message]);
 
@@ -112,13 +179,10 @@ const ContactForm = () => {
           {/* Form Section */}
           <div className="w-full lg:w-2/5 px-6 md:px-12 lg:px-16 py-8 bg-[#252C33] flex flex-col justify-center">
             <h1 className="text-5xl !font-bold md:text-4xl text-white">
-              Get in
-              <span className="text-[#DD5471]">Touch</span>
+              {t("title")}{" "}
+              <span className="text-[#DD5471]">{t("titleHighlight")}</span>
             </h1>
-            <p className="text-gray-300 mt-2 mb-6">
-              Our team is always available to assist you. Contact us whenever
-              you want!
-            </p>
+            <p className="text-gray-300 mt-2 mb-6">{t("description")}</p>
 
             <form className="space-y-4" onSubmit={handleSubmit}>
               {fields.map((field: any) => (
@@ -133,7 +197,16 @@ const ContactForm = () => {
                     <input
                       type={field.type}
                       name={field.name}
-                      placeholder={field.name
+                      value={field.value} // controlled input
+                      onChange={(e) => {
+                        const newValue = e.target.value;
+                        setFields(
+                          fields.map((f: any) =>
+                            f.id === field.id ? { ...f, value: newValue } : f
+                          )
+                        );
+                      }}
+                      placeholder={field.label
                         .split("-")
                         .map(
                           (word: string) =>
@@ -148,6 +221,15 @@ const ContactForm = () => {
                   {field.component === TEXTAREA && (
                     <textarea
                       name={field.name}
+                      value={field.value} // controlled textarea
+                      onChange={(e) => {
+                        const newValue = e.target.value;
+                        setFields(
+                          fields.map((f: any) =>
+                            f.id === field.id ? { ...f, value: newValue } : f
+                          )
+                        );
+                      }}
                       id={field.id}
                       rows={4}
                       className="form-control mt-1 block w-full px-4 py-2 rounded-3xl border border-gray-300 bg-transparent outline-none focus:border-[#DD5471]"
@@ -165,7 +247,7 @@ const ContactForm = () => {
                 type="submit"
                 className="w-full bg-[#DD5471] py-3 text-white font-bold rounded-md hover:opacity-90 transition duration-300"
               >
-                SEND
+                {t("send")}
               </button>
               {message && (
                 <div className="mt-4 p-3 rounded-md text-green-600">
@@ -176,12 +258,8 @@ const ContactForm = () => {
 
             <div className="flex items-center space-x-6 mt-8 text-gray-300">
               <div>
-                <p className="text-sm font-semibold">PHONE</p>
-                <p className="text-[#DD5471] text-lg">03 5432 1234</p>
-              </div>
-              <div>
-                <p className="text-sm font-semibold">EMAIL</p>
-                <p className="text-[#DD5471] text-lg">info@gmail.com</p>
+                <p className="text-sm font-semibold">{t("phoneLabel")}</p>
+                <p className="text-[#DD5471] text-lg">01123325005</p>
               </div>
             </div>
           </div>

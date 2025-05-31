@@ -15,7 +15,7 @@ import {
 
 // WordPress Config env
 
-const baseUrl = process.env.WORDPRESS_URL;
+const baseUrl = "https://store.maator.com";
 
 function getUrl(path: string, query?: Record<string, any>) {
   const params = query ? querystring.stringify(query) : null;
@@ -204,7 +204,7 @@ export async function getFeaturedMediaById(id: number): Promise<FeaturedMedia> {
 }
 export async function getImages(): Promise<string[]> {
   const response = await fetch(
-    "https://dashboard.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls"
+    "https://store.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls"
   );
   const data = await response.json();
   return data.flatMap(

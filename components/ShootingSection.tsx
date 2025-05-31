@@ -13,8 +13,9 @@ interface ImageData {
 }
 
 const ShootingSection = () => {
-  const [images, setImages] = useState<{ [key: number]: string[] }>({});
+  const [images, setImages] = useState<{ [key: number]: any[] }>({});
   const [page, setPage] = useState(1);
+  const [maxPages, setMaxPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const { theme } = useTheme();
 
@@ -25,12 +26,16 @@ const ShootingSection = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://dashboard.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=acf.image_urls&page=${page}`
+          `https://store.maator.com/wp-json/wp/v2/images?acf_format=standard&_fields=id,title,acf.image_urls&page=${page}`
         );
-        const data: ImageData[] = await response.json();
 
-        const allImages = data.flatMap((item) => item.acf.image_urls || []);
+        const data: ImageData[] = await response.json();
+        const totalPages = Number(response.headers.get("X-WP-TotalPages")); // ← this
+
+        const allImages = data.flatMap((item) => item || []);
+
         setImages((prev) => ({ ...prev, [page]: allImages }));
+        setMaxPages(totalPages); // ← you'll need to define this in state
       } catch (error) {
         console.error("Error fetching images:", error);
       } finally {
@@ -70,11 +75,11 @@ const ShootingSection = () => {
               ></div>
             ))
         ) : images[page] && images[page].length > 0 ? (
-          images[page].map((imageUrl, index) => (
+          images[page].map((image, index) => (
             <div key={index} className="relative w-full h-[400px]">
               <Image
-                src={imageUrl}
-                alt={`Image ${index + 1}`}
+                src={image.acf.image_urls}
+                alt={image.title.rendered}
                 className="rounded-xl object-cover"
                 layout="fill"
               />
@@ -85,9 +90,12 @@ const ShootingSection = () => {
         )}
       </div>
 
-      <div className="flex items-center justify-center mt-14 mb-4 space-x-4 ">
+      <div
+        className="flex items-center justify-center mt-14 mb-4 space-x-4"
+        dir="ltr"
+      >
         <button
-          onClick={() => changePage(1)}
+          onClick={() => changePage(page - 1)}
           disabled={page === 1}
           className={`flex items-center justify-center w-10 h-10 rounded-full ${
             page === 1
@@ -109,31 +117,23 @@ const ShootingSection = () => {
           </svg>
         </button>
 
+        {Array.from({ length: maxPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => changePage(i + 1)}
+            disabled={page === i + 1}
+            className={`text-xl relative ${
+              page === i + 1
+                ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
+                : "hover:text-gray-400"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
         <button
-          onClick={() => changePage(1)}
-          disabled={page === 1}
-          className={`text-xl relative ${
-            page === 1
-              ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
-              : "hover:text-gray-400"
-          }`}
-        >
-          1
-        </button>
-        <button
-          onClick={() => changePage(2)}
-          disabled={page === 2}
-          className={`text-xl relative ${
-            page === 2
-              ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
-              : "hover:text-gray-400"
-          }`}
-        >
-          2
-        </button>
-        <button
-          onClick={() => changePage(2)}
-          disabled={page === 2}
+          onClick={() => changePage(page + 1)}
+          disabled={page === maxPages}
           className={`flex items-center justify-center w-10 h-10 rounded-full ${
             page === 2
               ? "opacity-50 cursor-not-allowed bg-gray-500"

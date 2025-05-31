@@ -1,54 +1,59 @@
+import Link from "next/link";
 import { ThemeToggle } from "./theme/theme-toggle";
 import Image from "next/image";
-const footerData = {
-  logo: {
-    src: "/images/logo.png",
-    alt: "logo",
-  },
-  socialLinks: [
-    {
-      href: "https://www.facebook.com",
-      icon: "/icons/formkit_whatsapp.png",
-      alt: "WhatsApp",
-    },
-    {
-      href: "https://www.instagram.com/qwizeen/",
-      icon: "/icons/ic_baseline-facebook.png",
-      alt: "Facebook",
-    },
-    {
-      href: "https://www.instagram.com/qwizeen/",
-      icon: "/icons/mingcute_youtube-fill.png",
-      alt: "YouTube",
-    },
-    {
-      href: "https://www.instagram.com/qwizeen/",
-      icon: "/icons/ant-design_instagram-filled.png",
-      alt: "Instagram",
-    },
-  ],
-  sections: [
-    {
-      title: "Location",
-      items: [
-        {
-          text: "Maadi as Sarayat Al Gharbeyah, Cairo Governorate 11728",
-        },
-      ],
-    },
-    {
-      title: "Home",
-      items: [
-        { text: "Motorcycle" },
-        { text: "Videos" },
-        { text: "Shooting" },
-        { text: "Contact us" },
-      ],
-    },
-  ],
-};
+import { useLocale, useTranslations } from "next-intl";
 
 const Footer = () => {
+  const t = useTranslations("NavBar");
+  const locale = useLocale();
+  const withLocale = (path: string) => `/${locale}${path}`;
+
+  const footerData = {
+    logo: {
+      src: "/images/logo.png",
+      alt: "logo",
+    },
+    socialLinks: [
+      {
+        href: "https://wa.me/201123325005",
+        icon: "/icons/formkit_whatsapp.png",
+        alt: "WhatsApp",
+      },
+      {
+        href: "https://web.facebook.com/maatorgarage",
+        icon: "/icons/ic_baseline-facebook.png",
+        alt: "Facebook",
+      },
+      {
+        href: "https://www.youtube.com/@Moaz_saad",
+        icon: "/icons/mingcute_youtube-fill.png",
+        alt: "YouTube",
+      },
+      {
+        href: "https://www.instagram.com/maator.garage",
+        icon: "/icons/ant-design_instagram-filled.png",
+        alt: "Instagram",
+      },
+    ],
+    sections: [
+      {
+        title: t("location"),
+        items: [
+          {
+            text: "Maadi as Sarayat Al Gharbeyah, Cairo Governorate 11728",
+          },
+        ],
+      },
+      {
+        title: t("home"),
+        items: [
+          { text: t("videos"), href: withLocale("/motorcycles") },
+          { text: t("shooting"), href: withLocale("/motorcycles") },
+          { text: t("contact"), href: withLocale("/motorcycles") },
+        ],
+      },
+    ],
+  };
   return (
     <footer className="bg-[#1B1919] text-white py-8 md:py-12">
       <div className="mx-auto px-10 lg:px-32">
@@ -64,7 +69,7 @@ const Footer = () => {
               />
             </a>
 
-            <div className="flex space-x-6 mt-6">
+            <div className="flex gap-6 mt-6">
               {footerData.socialLinks.map((link, index) => (
                 <a
                   key={index}
@@ -94,11 +99,21 @@ const Footer = () => {
             >
               <h2 className="font-medium text-2xl mb-6">{section.title}</h2>
               <div className="flex flex-col gap-4">
-                {section.items.map((item, idx) => (
-                  <span key={idx} className="text-lg md:text-[22px]">
-                    {item.text}
-                  </span>
-                ))}
+                {section.items.map((item, idx) =>
+                  "href" in item ? (
+                    <Link
+                      href={item.href}
+                      key={idx}
+                      className="text-lg md:text-[22px]"
+                    >
+                      {item.text}
+                    </Link>
+                  ) : (
+                    <span key={idx} className="text-lg md:text-[22px]">
+                      {item.text}
+                    </span>
+                  )
+                )}
               </div>
             </div>
           ))}

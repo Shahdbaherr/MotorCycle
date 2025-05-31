@@ -6,6 +6,7 @@ import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import ImageCard from "./ImageCard";
 import { useTheme } from "next-themes";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Video {
   id: number;
@@ -23,12 +24,13 @@ const Videos = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [page, setPage] = useState(1);
   const { theme } = useTheme();
+  const t = useTranslations("Hero");
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id"
+          "https://store.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id"
         );
         const data: ApiResponse[] = await response.json();
 
@@ -52,6 +54,8 @@ const Videos = () => {
   const buttonTextColor = theme === "light" ? "#FFFFFF" : "#000000";
   const buttonBorderColor = theme === "light" ? "#000000" : "#FFFFFF";
   const imageSource = theme === "light" ? "/videosLight.png" : "/Videos.png";
+
+  const locale = useLocale();
 
   return (
     <div
@@ -78,7 +82,7 @@ const Videos = () => {
 
       {/* Button Section */}
       <div className="flex justify-center items-center pb-10">
-        <Link href="/videos" passHref>
+        <Link href={`/${locale}/videos`} passHref>
           <button
             className="inline-block px-6 py-2 mt-6 uppercase tracking-wide rounded-lg transition duration-200 text-xl"
             style={{
@@ -87,7 +91,7 @@ const Videos = () => {
               border: `1px solid ${buttonBorderColor}`,
             }}
           >
-            SHOW MORE
+            {t("showMore")}
           </button>
         </Link>
       </div>

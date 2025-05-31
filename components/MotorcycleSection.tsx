@@ -4,9 +4,11 @@ import ImageCard from "./ImageCard";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Motorcycle {
   id: number;
+  slug: string;
   src: string;
   title: string;
   price: string;
@@ -25,17 +27,19 @@ const MotorcyclesSection = () => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 8;
   const router = useRouter();
+  const locale = useLocale();
 
   useEffect(() => {
     const fetchMotorcycles = async () => {
       try {
         const response = await fetch(
-          "https://dashboard.maator.com/wp-json/wp/v2/motors?acf_format=standard&_fields=acf,id"
+          "https://store.maator.com/wp-json/wp/v2/motors?acf_format=standard&_fields=acf,id,slug"
         );
         const data = await response.json();
 
         const formattedData = data.map((item: any) => ({
           id: item.id,
+          slug: item.slug,
           src: item.acf.image,
           title: item.acf.name,
           price: item.acf.price,
@@ -57,7 +61,7 @@ const MotorcyclesSection = () => {
 
     fetchMotorcycles();
   }, []);
-
+  const t = useTranslations("motor")
   const backgroundColor = theme === "light" ? "#FFFFFF" : "#0E0B0B";
   const textColor = theme === "light" ? "#000000" : "#FFFFFF";
   const cardShadow = theme === "light" ? "0px 4px 10px #DD253D40" : "none";
@@ -76,7 +80,7 @@ const MotorcyclesSection = () => {
   };
 
   return (
-    <section style={{ backgroundColor, color: textColor }} className="py-10">
+    <section style={{ backgroundColor, color: textColor }}>
       <div>
         <ImageCard
           imgSrc={
@@ -85,7 +89,7 @@ const MotorcyclesSection = () => {
         />
       </div>
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {loading
             ? Array(itemsPerPage)
                 .fill(0)
@@ -109,7 +113,7 @@ const MotorcyclesSection = () => {
                   className="border rounded-lg overflow-hidden bg-[#F1F2F4]"
                   style={{ boxShadow: cardShadow }}
                 >
-                  <div className="relative w-[calc(100%-2rem)] mx-auto h-[30vh] px-4">
+                  <div className="relative w-[calc(100%-2rem)] rounded-lg mx-auto h-[55vh] px-4">
                     <Image
                       src={bike.src}
                       alt={bike.title}
@@ -127,17 +131,17 @@ const MotorcyclesSection = () => {
                     </p>
                     <button
                       onClick={() => {
-                        router.push(`/details/${bike.id}`);
+                        router.push(`/${locale}/motocycle/${bike.slug}`);
                       }}
                       className="mt-4 bg-primary text-white px-3 py-1 rounded"
                     >
-                      Show Details
+                      {t("showDetails")}
                     </button>
                   </div>
                 </div>
               ))}
         </div>
-        <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
+        <div className="flex items-center justify-center mt-8 mb-4 space-x-4" dir="ltr">
           <button
             onClick={() => changePage(page - 1)}
             disabled={page === 1}

@@ -23,6 +23,7 @@ export type Post = {
     protected: boolean;
   };
   author: number;
+  featured_image: any;
   featured_media: number;
   comment_status: "open" | "closed";
   ping_status: "open" | "closed";

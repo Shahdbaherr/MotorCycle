@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import ImageCard from "./ImageCard";
-import notFound from "@/app/not-found";
+// import notFound from "@/app/not-found";
 
 interface Video {
   id: number;
@@ -15,19 +15,26 @@ const VideosSection = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [maxPages, setMaxPages] = useState(0);
   const { theme } = useTheme();
 
   useEffect(() => {
     const fetchVideos = async () => {
       setIsLoading(true);
       try {
-        const url = `https://dashboard.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id&page=${page}`;
+        const url = `https://store.maator.com/wp-json/wp/v2/videos?acf_format=standard&_fields=id,acf.id&page=${page}`;
         const response = await fetch(url);
         const data = await response.json();
 
         if (response.status === 404) {
-          notFound();
+          // Handle not found case if needed
+          setVideos([]);
+          setMaxPages(0);
+          setIsLoading(false);
+          return;
         }
+
+        const totalPages = Number(response.headers.get("X-WP-TotalPages"));
 
         const videosData = data.map((post: any) => ({
           id: post.id,
@@ -35,9 +42,10 @@ const VideosSection = () => {
         }));
 
         setVideos(videosData);
-        setIsLoading(false);
+        setMaxPages(totalPages); // Don't forget to define setMaxPages in state
       } catch (error) {
         console.error("Error fetching videos:", error);
+      } finally {
         setIsLoading(false);
       }
     };
@@ -87,9 +95,12 @@ const VideosSection = () => {
           ))
         )}
       </div>
-      <div className="flex items-center justify-center mt-8 mb-4 space-x-4">
+      <div
+        className="flex items-center justify-center mt-8 mb-4 space-x-4"
+        dir="ltr"
+      >
         <button
-          onClick={() => changePage(1)}
+          onClick={() => changePage(page - 1)}
           disabled={page === 1}
           className={`flex items-center justify-center w-10 h-10 rounded-full ${
             page === 1
@@ -111,31 +122,23 @@ const VideosSection = () => {
           </svg>
         </button>
 
+        {Array.from({ length: maxPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => changePage(i + 1)}
+            disabled={page === i + 1}
+            className={`text-xl relative ${
+              page === i + 1
+                ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
+                : "hover:text-gray-400"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
         <button
-          onClick={() => changePage(1)}
-          disabled={page === 1}
-          className={`text-xl relative ${
-            page === 1
-              ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
-              : "hover:text-gray-400"
-          }`}
-        >
-          1
-        </button>
-        <button
-          onClick={() => changePage(2)}
-          disabled={page === 2}
-          className={`text-xl relative ${
-            page === 2
-              ? "font-bold after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary"
-              : "hover:text-gray-400"
-          }`}
-        >
-          2
-        </button>
-        <button
-          onClick={() => changePage(2)}
-          disabled={page === 2}
+          onClick={() => changePage(page + 1)}
+          disabled={page === maxPages}
           className={`flex items-center justify-center w-10 h-10 rounded-full ${
             page === 2
               ? "opacity-50 cursor-not-allowed bg-gray-500"
