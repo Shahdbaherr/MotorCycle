@@ -62,6 +62,7 @@ interface MotorcycleDetails {
   safety: string;
   gallery: any;
   deliverables: any;
+  videos: any;
 }
 
 const Details = ({ params }: { params: { slug: string } }) => {
@@ -87,6 +88,11 @@ const Details = ({ params }: { params: { slug: string } }) => {
     motorcycle?.deliverables?.map((img: any) => ({
       url: img.url,
       alt: img.alt || img.title,
+    })) || [];
+
+  const videos =
+    motorcycle?.videos?.map((video: any) => ({
+      url: video.video,
     })) || [];
 
   const handleSubmit = async (event: any) => {
@@ -160,6 +166,7 @@ const Details = ({ params }: { params: { slug: string } }) => {
             safety: data.acf.safety,
             gallery: data.acf.gallery,
             deliverables: data.acf.deliverables,
+            videos: data.acf.videos
           });
         } else {
           console.error("Motorcycle data not found.");
@@ -271,12 +278,19 @@ const Details = ({ params }: { params: { slug: string } }) => {
       </div>
 
       <div className="w-full px-0 lg:px-12">
-        {galleryImages.length > 0 && <GalleryCarousel images={galleryImages} />}
+        {galleryImages.length > 0 && <GalleryCarousel media={galleryImages} />}
 
         {deliverableImages.length > 0 && (
           <GalleryCarousel
             title={t("deliverablesTitle")}
-            images={deliverableImages}
+            media={deliverableImages}
+          />
+        )}
+
+        {videos.length > 0 && (
+          <GalleryCarousel
+            title={t("deliverablesTitle")}
+            media={videos}
           />
         )}
       </div>

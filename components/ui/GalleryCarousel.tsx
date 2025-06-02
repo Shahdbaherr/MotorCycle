@@ -3,24 +3,28 @@
 import React, { useState, useEffect } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import Image from "next/image";
 
-type ImageType = {
+type MediaType = {
   url: string;
-  alt: string;
+  alt?: string;
 };
 
 export default function GalleryCarousel({
   title,
-  images,
+  media,
+  type = "image", // "image" | "video"
 }: {
   title?: string;
-  images: ImageType[];
+  media: MediaType[];
+  type?: "image" | "video";
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const shouldUseCarousel = images.length > 3;
+  const shouldUseCarousel = media.length > 3;
 
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>(
     shouldUseCarousel
@@ -36,7 +40,7 @@ export default function GalleryCarousel({
             },
           },
         }
-      : {} // ✅ empty object is a valid fallback config
+      : {}
   );
 
   useEffect(() => {
@@ -52,17 +56,27 @@ export default function GalleryCarousel({
     setLightboxOpen(true);
   };
 
-  const closeLightbox = () => {
-    setLightboxOpen(false);
-  };
+  const closeLightbox = () => setLightboxOpen(false);
+  const prevLightbox = () =>
+    setLightboxIndex((prev) => (prev === 0 ? media.length - 1 : prev - 1));
+  const nextLightbox = () =>
+    setLightboxIndex((prev) => (prev === media.length - 1 ? 0 : prev + 1));
 
-  const prevLightbox = () => {
-    setLightboxIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const nextLightbox = () => {
-    setLightboxIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
+  const renderMedia = (item: MediaType, idx: number) =>
+    type === "image" ? (
+      <Image
+        key={idx}
+        src={item.url}
+        alt={item.alt || "Image"}
+        width={800}
+        height={600}
+        className="w-full h-auto object-cover rounded-lg shadow-md cursor-pointer"
+        loading="lazy"
+        onClick={() => openLightbox(idx)}
+      />
+    ) : (
+      <LiteYouTubeEmbed key={idx} id={item.url} title={`Video ${item.url}`} />
+    );
 
   return (
     <div className="mb-8 relative">
@@ -73,7 +87,7 @@ export default function GalleryCarousel({
         className={
           shouldUseCarousel
             ? "keen-slider"
-            : "grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+            : "grid gap-4 grid-cols-1"
         }
       >
         {shouldUseCarousel ? (
@@ -81,34 +95,15 @@ export default function GalleryCarousel({
             ref={sliderRef}
             className="keen-slider rounded-2xl overflow-hidden"
           >
-            {images.map((img, idx) => (
+            {media.map((item, idx) => (
               <div className="keen-slider__slide" key={idx}>
-                <Image
-                  src={img.url}
-                  alt={img.alt || "Motorcycle image"}
-                  width={800}
-                  height={600}
-                  className="w-full h-auto object-cover rounded-lg shadow-md cursor-pointer"
-                  loading="lazy"
-                  onClick={() => openLightbox(idx)} // ✅ Add this line
-                />
+                {renderMedia(item, idx)}
               </div>
             ))}
           </div>
         ) : (
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {images.map((img, idx) => (
-              <Image
-                key={idx}
-                src={img.url}
-                alt={img.alt || "Motorcycle image"}
-                width={800}
-                height={600}
-                className="w-full h-auto object-cover rounded-lg shadow-md cursor-pointer"
-                loading="lazy"
-                onClick={() => openLightbox(idx)} // ✅ Add this line
-              />
-            ))}
+            {media.map(renderMedia)}
           </div>
         )}
       </div>
@@ -120,6 +115,7 @@ export default function GalleryCarousel({
             className="absolute top-1/2 left-3 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white rounded-full p-3 shadow-lg transition z-10"
             aria-label="Previous Slide"
           >
+            {/* Left arrow icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -140,6 +136,7 @@ export default function GalleryCarousel({
             className="absolute top-1/2 right-3 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white rounded-full p-3 shadow-lg transition z-10"
             aria-label="Next Slide"
           >
+            {/* Right arrow icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -158,15 +155,15 @@ export default function GalleryCarousel({
         </>
       )}
 
-      {/* Lightbox Modal */}
+      {/* Lightbox */}
       {lightboxOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-          onClick={closeLightbox} // ✅ close when background clicked
+          onClick={closeLightbox}
         >
           <div
             className="relative max-w-4xl w-full px-6"
-            onClick={(e) => e.stopPropagation()} // ✅ prevent close when clicking image or buttons
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={closeLightbox}
@@ -193,13 +190,24 @@ export default function GalleryCarousel({
                 />
               </svg>
             </button>
-            <Image
-              src={images[lightboxIndex].url}
-              alt={images[lightboxIndex].alt || ""}
-              width={1200}
-              height={800}
-              className="w-full h-auto object-cover rounded-lg"
-            />
+
+            {type === "image" ? (
+              <Image
+                src={media[lightboxIndex].url}
+                alt={media[lightboxIndex].alt || ""}
+                width={1200}
+                height={800}
+                className="w-full h-auto object-cover rounded-lg"
+              />
+            ) : (
+              <video
+                src={media[lightboxIndex].url}
+                controls
+                autoPlay
+                className="w-full h-auto rounded-lg"
+              />
+            )}
+
             <button
               onClick={nextLightbox}
               className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white rounded-full p-3 shadow-lg transition z-10"

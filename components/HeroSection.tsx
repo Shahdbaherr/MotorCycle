@@ -59,14 +59,14 @@ const HeroSection = () => {
           </div>
         </div>
         {/* Right Image Section */}
-        <div className="relative w-full md:w-1/2 h-[calc(100vh-130px)]">
+        <a href="https://store.maator.com" className="relative w-full md:w-1/2 h-[calc(100vh-130px)]">
           <Image
             src="/flashsale.webp"
             alt={t("motorcycle")}
             layout="fill"
-            className="object-cover rounded-lg max-w-full md:max-w-full !left-auto !m-0 md:!mt-6"
+            className="object-contain rounded-lg max-w-full md:max-w-full !left-auto !m-0 md:!mt-6"
           />
-        </div>
+        </a>
       </div>
     </section>
   );

@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     template: "",
   },
   description: "افضل خدمة مميزة للموتوسيكلات والأسكوتر في مصر | Quality Motorcycle Services in Egypt",
+  verification: {
+    google: 'UwcOyylnJ4SMDvH63ja9TE3iheuLDVY1GkrnRekZcMc',
+  },
   robots: "index, follow",
   openGraph: {
     type: "website",

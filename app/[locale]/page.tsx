@@ -22,7 +22,7 @@ export async function generateMetadata({
     ? "ماتور جراج – معرض شامل للموتوسيكلات بيع – شراء – صيانة – إكسسوارات"
     : "Mator Garage - Motorcycle Workshop & Maintenance";
   const description = isArabic
-    ? "ماتور جراچ هو مركز متخصص في صيانة وبيع الدراجات النارية في المنطقة."
+    ? "ماتور جراچ هو مركز متخصص في اكسسوارات وصيانة وبيع الموتوسيكلات والأسكوتر في المعادي"
     : "Mator Garage is a specialized center for motorcycle maintenance and sales in the region.";
 
   const keywords = isArabic
