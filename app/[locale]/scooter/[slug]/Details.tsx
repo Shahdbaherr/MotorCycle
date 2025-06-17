@@ -263,7 +263,7 @@ const Details = ({ params }: { params: { slug: string } }) => {
                 key={label}
                 className="flex items-center space-x-5 rounded-lg hover:bg-gray-50 transition cursor-default"
               >
-                <span className="text-sm md:text-4xl">{icon}</span>
+                <span className="hidden md:inline-block md:text-4xl">{icon}</span>
                 <div>
                   <span className="block text-gray-500 font-medium text-xs md:text-lg">
                     {label}
