@@ -30,7 +30,7 @@ export default function GalleryCarousel({
     shouldUseCarousel
       ? {
           loop: true,
-          slides: { perView: 1, spacing: 20 },
+          slides: { perView: 2, spacing: 20 },
           breakpoints: {
             "(min-width: 640px)": {
               slides: { perView: 2, spacing: 20 },
