@@ -90,10 +90,11 @@ const Details = ({ params }: { params: { slug: string } }) => {
       alt: img.alt || img.title,
     })) || [];
 
-  const videos =
-    motorcycle?.videos?.map((video: any) => ({
-      url: video.video,
-    })) || [];
+  const videos = motorcycle?.videos
+    ? motorcycle?.videos.map((video: any) => ({
+        url: video.video,
+      }))
+    : [];
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -166,7 +167,7 @@ const Details = ({ params }: { params: { slug: string } }) => {
             safety: data.acf.safety,
             gallery: data.acf.gallery,
             deliverables: data.acf.deliverables,
-            videos: data.acf.videos
+            videos: data.acf.videos,
           });
         } else {
           console.error("Motorcycle data not found.");
@@ -288,11 +289,7 @@ const Details = ({ params }: { params: { slug: string } }) => {
         )}
 
         {videos.length > 0 && (
-          <GalleryCarousel
-            title={t("videos")}
-            type="video"
-            media={videos}
-          />
+          <GalleryCarousel title={t("videos")} type="video" media={videos} />
         )}
       </div>
 

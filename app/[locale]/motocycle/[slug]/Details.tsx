@@ -91,9 +91,9 @@ const Details = ({ params }: { params: { slug: string } }) => {
     })) || [];
 
   const MotocycleVideos =
-    motorcycle?.videos?.map((video: any) => ({
+    motorcycle?.videos ? motorcycle?.videos.map((video: any) => ({
       url: video.video,
-    })) || [];
+    })) : [];
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
