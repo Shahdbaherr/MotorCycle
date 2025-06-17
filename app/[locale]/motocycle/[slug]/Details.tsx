@@ -231,11 +231,11 @@ const Details = ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div className="w-full bg-white rounded-2xl shadow-2xl px-4 lg:px-12 border border-gray-200">
-          <h3 className="text-3xl font-semibold mb-8 text-gray-800 border-b border-gray-300 pb-4">
+          <h3 className="text-lg md:text-3xl font-semibold mb-8 text-gray-800 border-b border-gray-300 pb-4">
             {t("specifications")}
           </h3>
 
-          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 px-0">
+          <ul className="grid grid-cols-6 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-8 px-0">
             {[
               {
                 label: t("displacement"),
@@ -264,12 +264,12 @@ const Details = ({ params }: { params: { slug: string } }) => {
                 key={label}
                 className="flex items-center space-x-5 rounded-lg hover:bg-gray-50 transition cursor-default"
               >
-                <span className="text-4xl">{icon}</span>
+                <span className="text-sm md:text-4xl">{icon}</span>
                 <div>
-                  <span className="block text-gray-500 font-medium text-lg">
+                  <span className="block text-gray-500 font-medium text-xs md:text-lg">
                     {label}
                   </span>
-                  <span className="block text-gray-900 font-semibold text-xl">
+                  <span className="block text-gray-900 font-semibold text-xs md:text-xl">
                     {value}
                   </span>
                 </div>
