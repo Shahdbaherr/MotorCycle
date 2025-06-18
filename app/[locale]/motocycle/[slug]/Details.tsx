@@ -84,16 +84,18 @@ const Details = ({ params }: { params: { slug: string } }) => {
       alt: img.alt || img.title,
     })) || [];
 
-  const deliverableImages =
-    motorcycle?.deliverables?.map((img: any) => ({
-      url: img.url,
-      alt: img.alt || img.title,
-    })) || [];
+  const deliverableImages = motorcycle?.deliverables
+    ? motorcycle?.deliverables.map((img: any) => ({
+        url: img.url,
+        alt: img.alt || img.title,
+      }))
+    : [];
 
-  const MotocycleVideos =
-    motorcycle?.videos ? motorcycle?.videos.map((video: any) => ({
-      url: video.video,
-    })) : [];
+  const MotocycleVideos = motorcycle?.videos
+    ? motorcycle?.videos.map((video: any) => ({
+        url: video.video,
+      }))
+    : [];
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -169,7 +171,6 @@ const Details = ({ params }: { params: { slug: string } }) => {
             videos: data.acf.videos,
           });
           console.log(data.acf.videos);
-          
         } else {
           console.error("Motorcycle data not found.");
         }
@@ -264,7 +265,9 @@ const Details = ({ params }: { params: { slug: string } }) => {
                 key={label}
                 className="flex items-center space-x-5 rounded-lg hover:bg-gray-50 transition cursor-default"
               >
-                <span className="hidden md:inline-block md:text-4xl">{icon}</span>
+                <span className="hidden md:inline-block md:text-4xl">
+                  {icon}
+                </span>
                 <div>
                   <span className="block text-gray-500 font-medium text-xs md:text-lg">
                     {label}
@@ -294,7 +297,11 @@ const Details = ({ params }: { params: { slug: string } }) => {
         })} */}
 
         {MotocycleVideos.length > 0 && (
-          <GalleryCarousel title={t("videos")} type="video" media={MotocycleVideos} />
+          <GalleryCarousel
+            title={t("videos")}
+            type="video"
+            media={MotocycleVideos}
+          />
         )}
       </div>
 
